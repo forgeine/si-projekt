@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.recipe_list'|trans }}
+{% endblock %}
+
+{% block body %}
+   <h1>{{ 'title.recipe_list'|trans }}</h1>
+    {#
+    {% for type, messages in app.session.flashBag.all %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+   #}
+    {% if app.user %}
+        {% if app.request.attributes.get('_route') == 'recipe_index' %}
+            <div>
+                <a href="{{ path('recipe_own') }}">{{ 'action.own'|trans }}</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ path('recipe_index') }}">{{ 'action.index'|trans }}</a>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'recipe.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'recipe.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'recipe.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'recipe.content') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.user'|trans, 'user.email') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <a href="{{ url('recipe_create') }}" title="{{ 'action.create'|trans }}">
+                {{ 'action.create'|trans }}
+            </a>
+
+            {% for recipe in pagination.items %}
+                <tr>
+                    <td>{{ recipe.id }}</td>
+                    <td>{{ recipe.createdAt|format_date('long') }}</td>
+                    <td>{{ recipe.updatedAt|format_date('long') }}</td>
+                    <td>{{ recipe.title }}</td>
+                    <td>{{ recipe.content }}</td>
+                    <td>{{ recipe.category.title }}</td>
+                    <td>{{ recipe.author.email }}</td>
+
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
+                                {{ 'action.show'|trans }}
+                            </a>
+                        {% if is_granted('EDIT', recipe) %}
+                            <a class="btn btn-outline-success" href="{{ url('recipe_edit', {id: recipe.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if is_granted('DELETE', recipe) %}
+                            <a class="btn btn-outline-danger" href="{{ url('recipe_delete', {id: recipe.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

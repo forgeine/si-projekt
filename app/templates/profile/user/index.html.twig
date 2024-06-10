@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block body %}
+        <a href="{{ path('profile_edit') }}" class="btn btn-primary btn-sm">{{ 'action.edit'|trans }}</a>
+        <a href="{{ path('profile_password')}}" class="btn btn-primary btn-sm">{{ 'action.change_password'|trans }}</a>
+    <h1>Edit Your Profile</h1>
+{% endblock %}
