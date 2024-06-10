@@ -40,9 +40,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/category, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/tag, roles: ROLE_ADMIN }
+        - { path: ^/category, roles: PUBLIC_ACCESS }
+        - { path: ^/tag, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS}
         - { path: ^/recipe, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER}
