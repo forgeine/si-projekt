@@ -1,37 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User Management{% endblock %}
+{% block title %}Manage Users{% endblock %}
 
 {% block body %}
-    <h1>User Management</h1>
-
-    <table class="table table-striped">
+    <h1>Manage Users</h1>
+    <table class="table">
         <thead>
         <tr>
-            <th>{{ 'label.id'|trans }}</th>
-            <th>{{ 'label.email'|trans }}</th>
-            <th>{{ 'label.roles'|trans }}</th>
-            <th>{{ 'label.actions'|trans }}</th>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        {% for user in user %}
+        {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    {% for role in user.roles %}
-                        {{ role }}{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
-                <td>
-                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary btn-sm">{{ 'action.edit'|trans }}</a>
-                    <a href="{{ path('admin_user_change_password', {'id': user.id}) }}" class="btn btn-warning btn-sm">{{ 'action.change_password'|trans }}</a>
+                    <a href="{{ path('edit_user', {id: user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{{ path('admin_change_password', {id: user.id}) }}" class="btn btn-secondary btn-sm">Change Password</a>
+                    <form method="post" action="{{ path('delete_user', {id: user.id}) }}" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('admin_dashboard') }}" class="btn btn-secondary">{{ 'action.back_to_dashboard'|trans }}</a>
 {% endblock %}

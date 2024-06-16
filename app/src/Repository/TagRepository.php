@@ -57,10 +57,12 @@ class TagRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
+
     /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
+     * @throws ORMException
      */
     public function save(Tag $tag): void
     {

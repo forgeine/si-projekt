@@ -61,10 +61,12 @@ class CategoryService implements CategoryServiceInterface
             self::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     /**
      * Save entity.
      *
      * @param Category $category Category entity
+     * @throws ORMException
      */
     public function save(Category $category): void
     {
@@ -75,6 +77,11 @@ class CategoryService implements CategoryServiceInterface
 
         $this->categoryRepository->save($category);
     }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function delete(Category $category): void
     {
         $this->categoryRepository->delete($category);

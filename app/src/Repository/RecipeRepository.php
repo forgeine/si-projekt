@@ -7,6 +7,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -76,6 +77,18 @@ class RecipeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function countByTag(Tag $tag): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('recipe.id'))
+            ->join('recipe.tags', 't')
+            ->where('t = :tag')
+            ->setParameter('tag', $tag)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     /**
      * Save entity.
      *

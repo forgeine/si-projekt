@@ -43,6 +43,10 @@ class CategoryController extends AbstractController
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Category $category): Response
     {
+        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+            return $this->redirectToRoute('category_index');
+        }
         $form = $this->createForm(
             CategoryType::class,
             $category,
@@ -120,6 +124,10 @@ class CategoryController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+            return $this->redirectToRoute('category_index');
+        }
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
@@ -149,12 +157,15 @@ class CategoryController extends AbstractController
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Category $category): Response
     {
+        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+            return $this->redirectToRoute('category_index');
+        }
         if(!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.category_contains_recipes')
             );
-
             return $this->redirectToRoute('category_index');
         }
 

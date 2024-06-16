@@ -1,19 +1,19 @@
 <?php
 /**
- * Category voter.
+ * Tag voter.
  */
 
 namespace App\Security\Voter;
 
-use App\Entity\Category;
+use App\Entity\Tag;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class CategoryVoter.
+ * Class TagVoter.
  */
-class CategoryVoter extends Voter
+class TagVoter extends Voter
 {
     /**
      * Edit permission.
@@ -21,12 +21,6 @@ class CategoryVoter extends Voter
      * @const string
      */
     private const EDIT = 'EDIT';
-    /**
-     * Create permission.
-     *
-     * @const string
-     */
-    private const CREATE = 'CREATE';
 
     /**
      * View permission.
@@ -52,8 +46,8 @@ class CategoryVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::CREATE])
-            && $subject instanceof Category;
+        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
+            && $subject instanceof tag;
     }
 
     /**
@@ -85,13 +79,12 @@ class CategoryVoter extends Voter
         return match ($attribute) {
             self::EDIT => false,
             self::DELETE => false,
-            self::CREATE => false,
             default => false,
         };
     }
 
     /**
-     * Checks if user can view category.
+     * Checks if user can view tag.
      *
      * @return bool Result
      */

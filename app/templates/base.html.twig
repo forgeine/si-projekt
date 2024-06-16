@@ -29,8 +29,20 @@
         </div>
     {% else %}
         <div>
+        {% if app.request.attributes.get('_route') == 'app_login'%}
+            <p>{{ 'action.login'|trans }}</p>
+        {% else %}
             <a href="{{ url('app_login') }}">{{ 'action.login'|trans }}</a>
+        {% endif %}
+            {% if app.request.attributes.get('_route') == 'user_register'%}
+                <p>{{ 'action.register'|trans }}</p>
+            {% else %}
+                <a href="{{ url('user_register') }}">{{ 'action.register'|trans }}</a>
+            {% endif %}
         </div>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ url('edit_users') }}">{{ 'action.edit_users'|trans }}</a>
     {% endif %}
     {% if app.request.attributes.get('_route') == 'recipe_index'%}
         <div>
@@ -41,10 +53,20 @@
             <a href="{{ url('recipe_index') }}">{{ 'action.index'|trans}}</a>
         </div>
     {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if app.request.attributes.get('_route') == 'category_index'%}
+        <div>
+            <p>{{ 'action.category_index'|trans}}</p>
+        </div>
+    {% else %}
         <div>
             <a href="{{ url('category_index') }}">{{ 'action.category_index'|trans}}</a>
         </div>
+    {% endif %}
+    {% if app.request.attributes.get('_route') == 'tag_index'%}
+        <div>
+            <p>{{ 'action.tag_index'|trans}}</p>
+        </div>
+    {% else %}
         <div>
             <a href="{{ url('tag_index') }}">{{ 'action.tag_index'|trans}}</a>
         </div>

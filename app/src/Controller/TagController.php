@@ -35,6 +35,10 @@ class TagController extends AbstractController
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Tag $tag): Response
     {
+        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+            return $this->redirectToRoute('tag_index');
+        }
         $form = $this->createForm(
             TagType::class,
             $tag,
@@ -71,7 +75,6 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'tag_index', methods: 'GET')]
-    #[IsGranted('ROLE_ADMIN')]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
         $pagination = $this->tagService->getPaginatedList($page);
@@ -112,6 +115,10 @@ class TagController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        $user = $this->getUser();
+        if (!$user){
+            return $this->redirectToRoute('tag_index');
+        }
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -141,6 +148,10 @@ class TagController extends AbstractController
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Tag $tag): Response
     {
+        $user = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+            return $this->redirectToRoute('tag_index');
+        }
         if(!$this->tagService->canBeDeleted($tag)) {
             $this->addFlash(
                 'warning',

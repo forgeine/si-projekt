@@ -11,11 +11,11 @@
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
-
-        <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
-            {{ 'action.create'|trans }}
-        </a>
-
+        {% if is_granted('CREATE') %}
+            <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
+                {{ 'action.create'|trans }}
+            </a>
+        {% endif %}
         <table class="table table-striped">
             <thead>
             <tr>
@@ -34,6 +34,7 @@
                     <td>{{ category.updatedAt|format_date('long') }}</td>
                     <td>{{ category.title }}</td>
                     <td>
+
                         <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>

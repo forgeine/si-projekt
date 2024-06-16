@@ -61,10 +61,12 @@ class TagService implements TagServiceInterface
             self::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
     /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
+     * @throws ORMException
      */
     public function save(Tag $tag): void
     {
@@ -75,6 +77,11 @@ class TagService implements TagServiceInterface
 
         $this->tagRepository->save($tag);
     }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function delete(Tag $tag): void
     {
         $this->tagRepository->delete($tag);
@@ -83,7 +90,7 @@ class TagService implements TagServiceInterface
     /**
      * Can tag be deleted?
      *
-     * @param Tag $tag Tag entity
+     * @param Tag $tags Tag entity
      *
      * @return bool Result
      */

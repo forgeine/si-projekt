@@ -57,10 +57,12 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('category');
     }
+
     /**
      * Save entity.
      *
      * @param Category $category Category entity
+     * @throws ORMException
      */
     public function save(Category $category): void
     {
