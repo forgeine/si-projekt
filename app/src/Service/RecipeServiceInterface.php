@@ -5,6 +5,7 @@
 
 namespace App\Service;
 
+use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -22,7 +23,7 @@ interface RecipeServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, User $author): PaginationInterface;
+    public function getPaginatedList(int $page, User $author, RecipeListInputFiltersDto $filters): PaginationInterface;
     /**
      * Save entity.
      *

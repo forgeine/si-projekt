@@ -38,7 +38,7 @@ class TagService implements TagServiceInterface
      *
      * @param TagRepository $tagRepository Tag repository
      * @param PaginatorInterface $paginator      Paginator
-     * @param RecipeRepository $recipeRepository Task repository
+     * @param RecipeRepository $recipeRepository Recipe repository
      */
     public function __construct(private readonly TagRepository $tagRepository,
                                 private readonly PaginatorInterface $paginator,
@@ -103,6 +103,19 @@ class TagService implements TagServiceInterface
         } catch (NoResultException|NonUniqueResultException) {
             return false;
         }
+    }
+    /**
+     * Find by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->tagRepository->findOneById($id);
     }
 
 

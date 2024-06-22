@@ -5,10 +5,14 @@
 
 namespace App\Service;
 
+use App\Dto\RecipeListFiltersDto;
+use App\Dto\RecipeListInputFiltersDto;
+use App\Entity\Enum\RecipeStatus;
 use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\RecipeRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -34,7 +38,7 @@ class RecipeService implements RecipeServiceInterface
      * @param RecipeRepository     $recipeRepository recipe repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly RecipeRepository $recipeRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly RecipeRepository $recipeRepository)
     {
     }
 
@@ -46,15 +50,22 @@ class RecipeService implements RecipeServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, ?User $author = null): PaginationInterface
+    public function getPaginatedList(int $page, ?User $author, RecipeListInputFiltersDto $filters): PaginationInterface
     {
-        $queryBuilder = $author ? $this->recipeRepository->queryByAuthor($author) : $this->recipeRepository->queryAll();
-
-        return $this->paginator->paginate(
-            $queryBuilder,
+        $filters = $this->prepareFilters($filters);
+        if ($author == null) {
+            return $this->paginator->paginate(
+            $this->recipeRepository->queryAll($filters),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
-        );
+        );}
+        else {
+            return $this->paginator->paginate(
+                $this->recipeRepository->queryByAuthor($author, $filters),
+                $page,
+                self::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
     /**
      * Save entity.
@@ -85,5 +96,22 @@ class RecipeService implements RecipeServiceInterface
     public function findOneByTitle(string $title): ?Tag
     {
         return $this->tagRepository->findOneByTitle($title);
+    }
+
+    /**
+     * Prepare filters for the recipe list.
+     *
+     * @param RecipeListInputFiltersDto $filters Raw filters from request
+     *
+     * @return RecipeListFiltersDto Result filters
+     * @throws NonUniqueResultException
+     */
+    private function prepareFilters(RecipeListInputFiltersDto $filters): RecipeListFiltersDto
+    {
+        return new RecipeListFiltersDto(
+            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
+            RecipeStatus::tryFrom($filters->statusId)
+        );
     }
 }

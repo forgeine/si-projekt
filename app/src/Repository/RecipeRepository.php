@@ -5,11 +5,14 @@
 
 namespace App\Repository;
 
+use App\Dto\RecipeListFiltersDto;
 use App\Entity\Category;
+use App\Entity\Enum\RecipeStatus;
 use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -17,6 +20,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class RecipeRepository.
@@ -55,18 +59,29 @@ class RecipeRepository extends ServiceEntityRepository
  /**
  * Query all records.
  *
- * @return \Doctrine\ORM\QueryBuilder Query builder
+ * @return QueryBuilder Query builder
  */
-    public function queryAll(): QueryBuilder
+    public function queryAll(RecipeListFiltersDto $filters): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
                 'partial recipe.{id, createdAt, updatedAt, title, content}',
-                'partial category.{id, title}'
+                'partial category.{id, title}',
+                'partial tags.{id, title}',
+                'partial author.{id, email}'
             )
             ->join('recipe.category', 'category')
+            ->leftJoin('recipe.tags', 'tags')
+            ->leftJoin('recipe.author', 'author')
             ->orderBy('recipe.updatedAt', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
     }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function countByCategory(Category $category): int
     {
         $qb = $this->getOrCreateQueryBuilder();
@@ -131,19 +146,32 @@ class RecipeRepository extends ServiceEntityRepository
         return $queryBuilder ?? $this->createQueryBuilder('recipe');
     }
     /**
-     * Query tasks by author.
+     * Query recipes by author.
      *
      * @param User $user User entity
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByAuthor(User $user): QueryBuilder
+    public function queryByAuthor(UserInterface $user, RecipeListFiltersDto $filters): QueryBuilder
     {
-        $queryBuilder = $this->queryAll();
+        $queryBuilder = $this->queryAll($filters);
 
         $queryBuilder->andWhere('recipe.author = :author')
             ->setParameter('author', $user);
 
+        return $queryBuilder;
+    }
+    private function applyFiltersToList(QueryBuilder $queryBuilder, RecipeListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
+        }
         return $queryBuilder;
     }
 }
