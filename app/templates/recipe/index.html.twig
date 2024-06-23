@@ -6,6 +6,7 @@
 
 {% block body %}
     <h1>{{ 'title.recipe_list'|trans }}</h1>
+
     {% if app.user %}
         {% if app.request.attributes.get('_route') == 'recipe_index' %}
             <div>
@@ -17,6 +18,7 @@
             </div>
         {% endif %}
     {% endif %}
+
     {% if pagination is defined and pagination.items|length %}
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
@@ -28,6 +30,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'recipe.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'recipe.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'recipe.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.rating'|trans, 'recipe.averageRating') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.user'|trans, 'author.email') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 <th>{{ 'label.tag' |trans }}</th>
@@ -45,25 +48,28 @@
                     <td>{{ recipe.createdAt|format_date('long') }}</td>
                     <td>{{ recipe.updatedAt|format_date('long') }}</td>
                     <td>{{ recipe.title }}</td>
+                    <td>
+                        {% if recipe.averageRating is not null %}
+                            {{ recipe.averageRating }}
+                        {% else %}
+                            {{ 'Brak ocen' }}
+                        {% endif %}
+                    </td>
                     <td>{{ recipe.author.email }}</td>
                     <td>
-                        <a class="btn btn-outline-primary"
-                           href="{{ url('recipe_index', {'categoryId': recipe.category.id}) }}"
-                           title="{{ recipe.category.title }}">
+                        <a class="btn btn-outline-primary" href="{{ url('recipe_index', {'categoryId': recipe.category.id}) }}" title="{{ recipe.category.title }}">
                             {{ recipe.category.title }}
                         </a>
                     </td>
                     <td>
                         {% if recipe.tags is defined and recipe.tags|length %}
                             {% for tag in recipe.tags %}
-                                <a class="btn btn-outline-primary"
-                                   href="{{ url('recipe_index', {'tagId': tag.id}) }}"
-                                   title="{{ tag.title }}">
+                                <a class="btn btn-outline-primary" href="{{ url('recipe_index', {'tagId': tag.id}) }}" title="{{ tag.title }}">
                                     {{ tag.title }}
                                 </a>
                             {% endfor %}
                         {% else %}
-                            &nbsp;
+                        {# tutaj #}
                         {% endif %}
                     </td>
                     <td>

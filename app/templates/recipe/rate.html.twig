@@ -1,0 +1,17 @@
+{# templates/recipe/rate.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Rate Recipe{% endblock %}
+
+{% block body %}
+    <h1>Rate Recipe</h1>
+    <p>Rate the recipe "{{ recipe.title }}"</p>
+
+    {# Formularz do oceniania przepisu #}
+    {{ form_start(form) }}
+    {{ form_row(form.value) }} {# Pole oceny #}
+
+    <button type="submit" class="btn btn-primary">Rate</button>
+    {{ form_end(form) }}
+{% endblock %}

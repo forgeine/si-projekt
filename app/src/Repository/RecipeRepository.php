@@ -65,7 +65,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
-                'partial recipe.{id, createdAt, updatedAt, title, content}',
+                'partial recipe.{id, createdAt, updatedAt, title, content, averageRating}',
                 'partial category.{id, title}',
                 'partial tags.{id, title}',
                 'partial author.{id, email}'

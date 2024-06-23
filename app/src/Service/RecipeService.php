@@ -6,7 +6,9 @@
 namespace App\Service;
 
 use App\Dto\RecipeListFiltersDto;
+use App\Repository\CommentRepository;
 use App\Dto\RecipeListInputFiltersDto;
+use App\Entity\Comment;
 use App\Entity\Enum\RecipeStatus;
 use App\Entity\Recipe;
 use App\Entity\Tag;
@@ -38,7 +40,7 @@ class RecipeService implements RecipeServiceInterface
      * @param RecipeRepository     $recipeRepository recipe repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly RecipeRepository $recipeRepository)
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly CommentRepository $commentRepository, private readonly RecipeRepository $recipeRepository)
     {
     }
 
@@ -113,5 +115,13 @@ class RecipeService implements RecipeServiceInterface
             null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
             RecipeStatus::tryFrom($filters->statusId)
         );
+    }
+    public function saveComment(Comment $comment): void
+    {
+        $this->commentRepository->save($comment);
+    }
+    public function deleteComment(Comment $comment): void
+    {
+        $this->commentRepository->delete($comment);
     }
 }

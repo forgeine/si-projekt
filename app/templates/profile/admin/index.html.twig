@@ -18,11 +18,11 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <a href="{{ path('edit_user', {id: user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="{{ path('admin_change_password', {id: user.id}) }}" class="btn btn-secondary btn-sm">Change Password</a>
-                    <form method="post" action="{{ path('delete_user', {id: user.id}) }}" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <a href="{{ path('edit_user', {id: user.id}) }}" class="btn btn-outline-primary">Edit</a>
+                    <a href="{{ path('admin_change_password', {id: user.id}) }}" class="btn btn-outline-primary">Change Password</a>
+                    <form method="post" action="{{ path('delete_user', {id: user.id}) }}" style="display:inline-block;" onsubmit="return confirm('delete?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-                        <button class="btn btn-danger btn-sm">Delete</button>
+                        <button class="btn btn-outline-danger">Delete</button>
                     </form>
                 </td>
             </tr>

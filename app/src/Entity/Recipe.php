@@ -4,9 +4,12 @@
  */
 namespace App\Entity;
 
+use App\Entity\Rating;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -92,13 +95,21 @@ class Recipe
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
     private ?User $author;
-
     /**
-     *
+     * @var Collection<int, Comment>
      */
+    #[Assert\Valid]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]    #[ORM\JoinTable(name: 'recipes_comments')]
+    private Collection $comments;
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class)]
+    private Collection $ratings;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $averageRating = null;
     public function __construct()
     {
+        $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
     /**
      * Getter for Id.
@@ -262,5 +273,94 @@ class Recipe
         $this->author = $author;
 
         return $this;
+    }
+    public function getComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => Order::Descending]);
+
+        return $this->comments->matching($criteria);
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        $this->comments->removeElement($comment);
+
+        return $this;
+    }
+
+    public function getAverageRating(): ?float
+    {
+        return $this->averageRating;
+    }
+
+    public function setAverageRating(float $averageRating): self
+    {
+        $this->averageRating = $averageRating;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getRecipe() === $this) {
+                $rating->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function calculateAverageRating(): void
+    {
+        $sum = 0;
+        $count = 0;
+
+        if ($this->ratings !== null) {
+            foreach ($this->ratings as $rating) {
+                $sum += $rating->getValue();
+                $count++;
+            }
+        }
+
+        if ($count > 0) {
+            // Calculate average rating
+            $averageRating = $sum / $count;
+
+            // Update the averageRating property of the Recipe entity
+            $this->setAverageRating($averageRating);
+        } else {
+            // Handle case where there are no ratings (optional)
+            $this->setAverageRating(0); // or any default value you prefer
+        }
     }
 }

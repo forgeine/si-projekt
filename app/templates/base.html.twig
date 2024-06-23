@@ -12,9 +12,12 @@
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     {% endblock %}
 </head>
-<body>
+<body style="padding: 5px;">
 <main role="main" class="container-fluid">
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div>
+            <a class="btn btn-outline-danger" href="{{ url('app_logout') }}">{{ 'action.logout'|trans }}</a>
+        </div>
         {% if app.request.attributes.get('_route') == 'profile_index'%}
             <div>
                 <p>{{ app.user.email }}</p>
@@ -24,20 +27,18 @@
                 <a href="{{ url('profile_index') }}">{{ app.user.email }}</a>
             </div>
         {% endif %}
-        <div>
-            <a href="{{ url('app_logout') }}">{{ 'action.logout'|trans }}</a>
-        </div>
+
     {% else %}
         <div>
         {% if app.request.attributes.get('_route') == 'app_login'%}
-            <p>{{ 'action.login'|trans }}</p>
+            <p style="display: inline-block;" class="btn btn-outline-primary">{{ 'action.login'|trans }}</p>
         {% else %}
-            <a href="{{ url('app_login') }}">{{ 'action.login'|trans }}</a>
+            <a class="btn btn-outline-primary" href="{{ url('app_login') }}">{{ 'action.login'|trans }}</a>
         {% endif %}
             {% if app.request.attributes.get('_route') == 'user_register'%}
-                <p>{{ 'action.register'|trans }}</p>
+                <p class="btn btn-outline-primary">{{ 'action.register'|trans }}</p>
             {% else %}
-                <a href="{{ url('user_register') }}">{{ 'action.register'|trans }}</a>
+                <a class="btn btn-outline-primary" href="{{ url('user_register') }}">{{ 'action.register'|trans }}</a>
             {% endif %}
         </div>
     {% endif %}
@@ -71,7 +72,7 @@
             <a href="{{ url('tag_index') }}">{{ 'action.tag_index'|trans}}</a>
         </div>
     {% endif %}
-    <div class="container-fluid">
+    {#<div class="container-fluid">#}
         {#  {% for type, messages in app.session.flashBag.all %}
             {% for message in messages %}
                 <div class="alert alert-{{ type }}" role="alert">
