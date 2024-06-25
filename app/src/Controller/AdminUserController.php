@@ -43,7 +43,7 @@ class AdminUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', $this->translator->trans('message.updated_successfully'));
+            $this->addFlash('success', $this->translator->trans('message.user_updated_successfully'));
 
             return $this->redirectToRoute('edit_users');
         }
@@ -87,7 +87,7 @@ class AdminUserController extends AbstractController
         $currentUser = $this->getUser();
 
         if ($currentUser->getId() === $user->getId()) {
-            $this->addFlash('warning', $this->translator->trans('message.cannot_delete_yourself'));
+            $this->addFlash('danger', $this->translator->trans('message.cannot_delete_yourself'));
             return $this->redirectToRoute('edit_users');
         }
 
@@ -100,7 +100,7 @@ class AdminUserController extends AbstractController
         $em->remove($user);
         $em->flush();
 
-        $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
+        $this->addFlash('success', $this->translator->trans('message.user_deleted_successfully'));
 
         return $this->redirectToRoute('edit_users');
     }

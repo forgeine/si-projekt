@@ -13,13 +13,14 @@ class AdminPasswordType extends AbstractType
     {
         $builder
             ->add('newPasswordAdmin', PasswordType::class, [
-                'label' => 'New Password',
+                'label' => 'label.password_new',
                 'required' => true,
             ])
             ->add('confirmNewPasswordAdmin', PasswordType::class, [
-                'label' => 'Confirm New Password',
+                'label' => 'label.password_repeat',
                 'required' => true,
-            ]);
+            ])
+            ->add('save', SubmitType::class, ['label' => 'action.edit_password']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

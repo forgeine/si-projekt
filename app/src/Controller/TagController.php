@@ -54,7 +54,7 @@ class TagController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully')
+                $this->translator->trans('message.edited_tag_successfully')
             );
 
             return $this->redirectToRoute('tag_index');
@@ -128,7 +128,7 @@ class TagController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully')
+                $this->translator->trans('message.created_tag_successfully')
             );
 
             return $this->redirectToRoute('tag_index');
@@ -176,7 +176,7 @@ class TagController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.deleted_successfully')
+                $this->translator->trans('message.deleted_tag_successfully')
             );
 
             return $this->redirectToRoute('tag_index');

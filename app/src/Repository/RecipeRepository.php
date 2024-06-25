@@ -14,6 +14,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\QueryBuilder;
@@ -52,9 +53,10 @@ class RecipeRepository extends ServiceEntityRepository
      *
      * @param ManagerRegistry $registry Manager registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, recipe::class);
+        $this->entityManager = $entityManager;
     }
  /**
  * Query all records.
@@ -120,18 +122,29 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Delete entity.
-     *
-     * @param Recipe $recipe Recipe entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @param Recipe $recipe
+     * @param bool $cascadeComments
+     * @param bool $cascadeRatings
+     * @return void
      */
-    public function delete(recipe $recipe): void
+    public function delete(Recipe $recipe, bool $cascadeComments = true, bool $cascadeRatings = true): void
     {
-        assert($this->_em instanceof EntityManager);
-        $this->_em->remove($recipe);
-        $this->_em->flush();
+        $entityManager = $this->getEntityManager();
+
+        if ($cascadeComments) {
+            foreach ($recipe->getComments() as $comment) {
+                $entityManager->remove($comment);
+            }
+        }
+
+        if ($cascadeRatings) {
+            foreach ($recipe->getRatings() as $rating) {
+                $entityManager->remove($rating);
+            }
+        }
+
+        $entityManager->remove($recipe);
+        $entityManager->flush();
     }
 
     /**

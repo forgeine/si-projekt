@@ -101,7 +101,7 @@ class Recipe
     #[Assert\Valid]
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]    #[ORM\JoinTable(name: 'recipes_comments')]
     private Collection $comments;
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class, cascade: ["remove"])]
     private Collection $ratings;
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;

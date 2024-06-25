@@ -4,6 +4,7 @@ namespace App\Form\Type;
 use App\Entity\Rating;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,8 +22,9 @@ class RatingType extends AbstractType
                     '5' => 5,
                 ],
                 'expanded' => true,
-                'label' => 'Ocena',
-            ]);
+                'label' => 'label.rate',
+            ])
+            ->add('save', SubmitType::class, ['label' => 'action.rating_add']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

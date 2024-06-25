@@ -14,8 +14,8 @@ class AdminEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'Email'])
-            ->add('save', SubmitType::class, ['label' => 'Save changes']);
+            ->add('email', EmailType::class, ['label' => 'label.email'])
+            ->add('save', SubmitType::class, ['label' => 'action.edit']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

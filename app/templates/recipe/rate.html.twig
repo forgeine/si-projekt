@@ -2,13 +2,12 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Rate Recipe{% endblock %}
+{% block title %}{{ 'label.rating2'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Oceń przepis</h1>
-    <p>Oceń przepis "{{ recipe.title }}"</p>
+    <h1>{{ 'label.rating2'|trans }}</h1>
+    <p>Oceń przepis: "{{ recipe.title }}"</p>
     {{ form_start(form) }}
     {{ form_row(form.value) }}
-    <button type="submit" class="btn btn-primary">Dodaj ocenę</button>
     {{ form_end(form) }}
 {% endblock %}

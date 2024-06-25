@@ -116,7 +116,7 @@ class RecipeController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->recipeService->saveComment($comment);
-                $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+                $this->addFlash('success', $this->translator->trans('message.created_comment_successfully'));
 
                 return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
             }
@@ -152,7 +152,7 @@ class RecipeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->recipeService->deleteComment($comment);
-            $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
+            $this->addFlash('success', $this->translator->trans('message.deleted_comment_successfully'));
             return $this->redirectToRoute('recipe_show', ['id' => $recipeId]);
         }
 
@@ -189,7 +189,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.created_successfully')
+                $this->translator->trans('message.created_recipe_successfully')
             );
 
             return $this->redirectToRoute('recipe_index');
@@ -217,7 +217,7 @@ class RecipeController extends AbstractController
         if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user){
             $this->addFlash(
                 'warning',
-                $this->translator->trans('message.record_not_found')
+                $this->translator->trans('message.recipe_no_permission')
             );
 
             return $this->redirectToRoute('recipe_index');
@@ -236,7 +236,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.edited_successfully')
+                $this->translator->trans('message.edited_recipe_successfully')
             );
             return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
@@ -266,7 +266,7 @@ class RecipeController extends AbstractController
         if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user){
             $this->addFlash(
                 'warning',
-                $this->translator->trans('message.record_not_found')
+                $this->translator->trans('message.recipe_no_permission')
             );
 
             return $this->redirectToRoute('recipe_index');
@@ -286,7 +286,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.deleted_successfully')
+                $this->translator->trans('message.deleted_recipe_successfully')
             );
 
             return $this->redirectToRoute('recipe_index');
@@ -300,6 +300,7 @@ class RecipeController extends AbstractController
             ]
         );
     }
+
     #[Route(
         '/{id}/rate',
         name: 'recipe_rate',

@@ -36,7 +36,7 @@ class UserProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+            $this->addFlash('success', $this->translator->trans('message.user_updated_successfully'));
             return $this->redirectToRoute('profile_edit');
         }
 
@@ -57,15 +57,14 @@ class UserProfileController extends AbstractController
             if ($this->passwordHasher->isPasswordValid($user, $data['currentPassword']) && $data['newPassword'] === $data['confirmNewPassword']) {
                 $user->setPassword($passwordHasher->hashPassword($user, $data['newPassword']));
                 $em->flush();
-                $this->addFlash('success', $this->translator->trans('message.created_successfully'));
+                $this->addFlash('success', $this->translator->trans('message.password_updated_successfully'));
 
                 return $this->redirectToRoute('profile_password');
             }
             else{
-                $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
+                $this->addFlash('warning', $this->translator->trans('message.password_error'));
             }
         }
-
         return $this->render('profile/user/password.html.twig', [
         'form' => $form->createView(),
         ]);

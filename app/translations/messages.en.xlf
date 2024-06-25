@@ -2,9 +2,101 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="pl" datatype="plaintext" original="file.ext">
     <body>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>Lista jest pusta.</target>
+      </trans-unit>
+      <trans-unit id="message.recipe_not_found">
+        <source>message.recipe_not_found</source>
+        <target>Przepis nie znaleziony.</target>
+      </trans-unit>
+      <trans-unit id="message.user_updated_successfully">
+        <source>message.user_updated_successfully</source>
+        <target>Konto został pomyślnie edytowane.</target>
+      </trans-unit>
+      <trans-unit id="message.password_updated_successfully">
+        <source>message.password_updated_successfully</source>
+        <target>Hasło zostało pomyślnie zmienione.</target>
+      </trans-unit>
+      <trans-unit id="message.cannot_delete_yourself">
+        <source>message.cannot_delete_yourself</source>
+        <target>Nie można usunąć własnego konta.</target>
+      </trans-unit>
+      <trans-unit id="message.user_deleted_successfully">
+        <source>message.user_deleted_successfully</source>
+        <target>Pomyślnie usunięto użytkownika.</target>
+      </trans-unit>
+      <trans-unit id="message.password_error">
+        <source>message.password_error</source>
+        <target>Wystąpił błąd podczas zmiany hasła.</target>
+      </trans-unit>
+      <trans-unit id="message.registration_successful">
+        <source>message.registration_successful</source>
+        <target>Konto zostało utworzone, proszę się teraz zalogować.</target>
+      </trans-unit>
+      <trans-unit id="message.created_comment_successfully">
+        <source>message.created_comment_successfully</source>
+        <target>Dodano komentarz.</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_comment_successfully">
+        <source>message.deleted_comment_successfully</source>
+        <target>Usunięto komentarz.</target>
+      </trans-unit>
+      <trans-unit id="message.created_recipe_successfully">
+        <source>message.created_recipe_successfully</source>
+        <target>Pomyślnie utworzono nowy przepis.</target>
+      </trans-unit>
+      <trans-unit id="message.recipe_no_permission">
+        <source>message.recipe_no_permission</source>
+        <target>Brak uprawnień do tego przepisu.</target>
+      </trans-unit>
+      <trans-unit id="message.edited_recipe_successfully">
+         <source>message.edited_recipe_successfully</source>
+         <target>Pomyślnie edytowano przepis.</target>
+       </trans-unit>
+      <trans-unit id="message.deleted_recipe_successfully">
+        <source>message.deleted_recipe_successfully</source>
+        <target>Pomyślnie usunięto przepis.</target>
+      </trans-unit>
+      <trans-unit id="message.rated_successfully">
+        <source>message.rated_successfully</source>
+        <target>Pomyślnie oceniono przepis.</target>
+      </trans-unit>
+      <trans-unit id="message.edited_category_successfully">
+        <source>message.edited_category_successfully</source>
+        <target>Pomyślnie edytowano kategorię.</target>
+      </trans-unit>
+      <trans-unit id="message.created_category_successfully">
+        <source>message.created_category_successfully</source>
+        <target>Pomyślnie stworzono kategorię.</target>
+      </trans-unit>
+      <trans-unit id="message.category_contains_recipes">
+        <source>message.category_contains_recipes</source>
+        <target>Kategoria zawiera przepisy.</target>
+      </trans-unit>
+      <trans-unit id="message.deleted_category_successfully">
+        <source>message.deleted_category_successfully</source>
+        <target>Pomyślnie usunięto kategorię.</target>
+      </trans-unit>
+      <trans-unit id="message.created_tag_successfully">
+        <source>message.created_tag_successfully</source>
+        <target>Pomyślnie dodano tag.</target>
+      </trans-unit>
+     <trans-unit id="message.deleted_tag_successfully">
+        <source>message.deleted_tag_successfully</source>
+        <target>Pomyślnie usunięto tag.</target>
+      </trans-unit>
+     <trans-unit id="message.edited_tag_successfully">
+        <source>message.edited_tag_successfully</source>
+        <target>Pomyślnie zmodyfikowano tag.</target>
+      </trans-unit>
+     <trans-unit id="message.tag_contains_recipes">
+        <source>message.tag_contains_recipes</source>
+        <target>Tag zawiera przepisy.</target>
+      </trans-unit>
       <trans-unit id="label.actions">
         <source>label.actions</source>
-        <target>Akcje</target>
+        <target>Operacje</target>
       </trans-unit>
       <trans-unit id="label.id">
         <source>label.id</source>
@@ -42,6 +134,10 @@
         <source>label.rating</source>
         <target>Ocena</target>
       </trans-unit>
+      <trans-unit id="label.rating2">
+        <source>label.rating2</source>
+        <target>Ocenianie</target>
+      </trans-unit>
       <trans-unit id="label.user_id">
         <source>label.user_id</source>
         <target>Id Użytkownika</target>
@@ -78,13 +174,9 @@
         <source>label.comment</source>
         <target>Komentarz</target>
       </trans-unit>
-      <trans-unit id="message.empty_list">
-        <source>message.empty_list</source>
-        <target>Lista jest pusta.</target>
-      </trans-unit>
-      <trans-unit id="message.recipe_not_found">
-        <source>message.recipe_not_found</source>
-        <target>Przepis nie znaleziony.</target>
+      <trans-unit id="label.rate">
+        <source>label.rate</source>
+        <target>Wybierz ocenę:</target>
       </trans-unit>
       <trans-unit id="title.profile_password">
         <source>title.profile_password</source>
@@ -126,13 +218,45 @@
          <source>title.recipe_edit</source>
          <target>Edycja Przepisu</target>
       </trans-unit>
+     <trans-unit id="title.category_edit">
+         <source>title.category_edit</source>
+         <target>Edycja Kategorii</target>
+      </trans-unit>
+    <trans-unit id="title.category_create">
+         <source>title.category_create</source>
+         <target>Dodaj Kategorię</target>
+      </trans-unit>
+     <trans-unit id="title.category_delete">
+         <source>title.category_delete</source>
+         <target>Usunąć kategorię?</target>
+      </trans-unit>
       <trans-unit id="title.recipe_delete">
          <source>title.recipe_delete</source>
-         <target>Usuń Przepis</target>
+         <target>Usunąć przepis?</target>
       </trans-unit>
       <trans-unit id="title.recipe_create">
          <source>title.recipe_create</source>
          <target>Dodaj Przepis</target>
+      </trans-unit>
+     <trans-unit id="title.tag_edit">
+         <source>title.tag_edit</source>
+         <target>Edycja Tagu</target>
+      </trans-unit>
+     <trans-unit id="title.tag_delete">
+         <source>title.tag_delete</source>
+         <target>Usunąć tag?</target>
+      </trans-unit>
+     <trans-unit id="title.user_delete">
+         <source>title.user_delete</source>
+         <target>Usunąć użytkownika?</target>
+      </trans-unit>
+     <trans-unit id="title.user_edit">
+         <source>title.user_edit</source>
+         <target>Edycja Użytkownika</target>
+      </trans-unit>
+      <trans-unit id="title.user_password">
+         <source>title.user_password</source>
+         <target>Zmiana hasła</target>
       </trans-unit>
       <trans-unit id="action.index">
          <source>action.index</source>
@@ -201,6 +325,10 @@
       <trans-unit id="action.view_recipes">
           <source>action.view_recipes</source>
            <target>Zobacz przepisy</target>
+       </trans-unit>
+      <trans-unit id="action.rating_add">
+          <source>action.rating_add</source>
+           <target>Dodaj ocenę</target>
        </trans-unit>
     </body>
   </file>

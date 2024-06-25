@@ -43,7 +43,7 @@
                 <tr>
                     <td>{{ recipe.createdAt|format_date('long') }}</td>
                     <td>{{ recipe.updatedAt|format_date('long') }}</td>
-                    <td>{{ recipe.title }}</td>
+                    <td><b>{{ recipe.title }}</b></td>
                     <td>
                         {% if recipe.averageRating is not null %}
                             {{ recipe.averageRating }}
