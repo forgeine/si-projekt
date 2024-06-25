@@ -5,13 +5,10 @@
 {% block title %}Rate Recipe{% endblock %}
 
 {% block body %}
-    <h1>Rate Recipe</h1>
-    <p>Rate the recipe "{{ recipe.title }}"</p>
-
-    {# Formularz do oceniania przepisu #}
+    <h1>Oceń przepis</h1>
+    <p>Oceń przepis "{{ recipe.title }}"</p>
     {{ form_start(form) }}
-    {{ form_row(form.value) }} {# Pole oceny #}
-
-    <button type="submit" class="btn btn-primary">Rate</button>
+    {{ form_row(form.value) }}
+    <button type="submit" class="btn btn-primary">Dodaj ocenę</button>
     {{ form_end(form) }}
 {% endblock %}

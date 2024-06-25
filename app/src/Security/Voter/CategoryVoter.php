@@ -70,10 +70,6 @@ class CategoryVoter extends Voter
     {
         $user = $token->getUser();
 
-        if ($attribute === self::VIEW) {
-            return $this->canView();
-        }
-
         if (!$user instanceof UserInterface) {
             return false;
         }
@@ -89,6 +85,7 @@ class CategoryVoter extends Voter
             default => false,
         };
     }
+
 
     /**
      * Checks if user can view category.

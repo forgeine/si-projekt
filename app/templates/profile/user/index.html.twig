@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Profile{% endblock %}
+{% block title %}{{ 'action.profile_index'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Your Profile</h1>
-    <a href="{{ path('profile_edit') }}" class="btn btn-outline-primary">{{ 'action.edit'|trans }}</a>
-        <a href="{{ path('profile_password')}}" class="btn btn-outline-primary">{{ 'action.change_password'|trans }}</a>
+    <div style="float:right;">
+        <a href="{{ path('profile_edit') }}" class="btn btn-outline-primary">{{'title.profile_edit'|trans}}</a>
+        <a href="{{ path('profile_password')}}" class="btn btn-outline-primary">{{ 'action.edit_password'|trans }}</a>
+    </div>
+    <h1>{{ 'action.profile_index'|trans }}</h1>
 {% endblock %}

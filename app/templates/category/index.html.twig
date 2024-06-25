@@ -7,19 +7,17 @@
 {% block body %}
     <h1>{{ 'title.category_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
-
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-        {% if is_granted('CREATE') %}
-            <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-outline-success me-2" style="display: inline-block; float:right;" href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
                 {{ 'action.create'|trans }}
             </a>
         {% endif %}
+        <div style="display: inline-block;" class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'category.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
@@ -29,7 +27,6 @@
             <tbody>
             {% for category in pagination.items %}
                 <tr>
-                    <td>{{ category.id }}</td>
                     <td>{{ category.createdAt|format_date('long') }}</td>
                     <td>{{ category.updatedAt|format_date('long') }}</td>
                     <td>{{ category.title }}</td>

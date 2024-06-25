@@ -1,28 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a style="float:right;" class="btn btn-outline-primary me-2" href="{{ url('recipe_index') }}" title="{{ 'action.back_to_list'|trans }}">
+        {{ 'action.back_to_list'|trans }}
+    </a>
     <h1>{{ recipe.title }}</h1>
+    <p>{{ 'label.category'|trans }}: <a class="btn btn-outline-primary me-2" href="{{ url('recipe_index', {'categoryId': recipe.category.id}) }}" title="{{ recipe.category.title }}">
+            {{ recipe.category.title }}
+        </a>
+    </p>
     <p>{{ recipe.content }}</p>
-
-    <h2>Rating</h2>
+    <p>{{ 'label.tag'|trans }}:
+    {% for tag in recipe.tags %}
+        <a class="btn btn-outline-primary" href="{{ url('recipe_index', {'tagId': tag.id}) }}" title="{{ tag.title }}">
+            {{ tag.title }}
+        </a>
+    {% endfor %}
+    </p>
+    <h2>{{ 'label.rating'|trans }}</h2>
         <p>
         {% if recipe.averageRating is not null %}
-            Average Rating: {{ recipe.averageRating }} (based on {{ recipe.ratings.count }} ratings)
+            Średnia ocen: {{ recipe.averageRating }} (Ilość ocen: {{ recipe.ratings.count }} )
         {% else %}
-            No ratings yet.
+            Brak ocen.
         {% endif %}
         </p>
-    <a href="{{ path('recipe_rate', {'id': recipe.id}) }}" class="btn btn-primary">Rate this recipe</a>
-    {% if commentForm is not null %}
-        <h2>Add a new comment</h2>
-        {{ form_start(commentForm) }}
-        {{ form_widget(commentForm) }}
-        <button class="btn btn-outline-primary"> {{ button_label|default('Submit') }}</button>
-        {{ form_end(commentForm) }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('recipe_rate', {'id': recipe.id}) }}" class="btn btn-primary">Dodaj ocenę</a>
     {% else %}
-        <p><a class="btn btn-outline-primary" href="{{ path('app_login') }}">{{ 'action.login'|trans }}</a> to add a comment.</p>
+
     {% endif %}
-    <h2>Comments</h2>
+    {% if commentForm is not null %}
+        <h2>Dodaj nowy komentarz</h2>
+        <form method="post">
+            {{ form_start(commentForm) }}
+            <div class="form-group">
+                {{ form_label(commentForm.content, 'label.comment'|trans) }}
+                {{ form_widget(commentForm.content, {'attr': {'class': 'form-control', 'placeholder': 'label.content'|trans}}) }}
+            </div>
+            <button style="margin-top: 10px;" class="btn btn-primary" type="submit">{{ button_label|default('action.create'|trans) }}</button>
+            {{ form_end(commentForm) }}
+        </form>
+    {% else %}
+        <p><a class="btn btn-outline-primary" href="{{ path('app_login') }}">{{ 'action.login'|trans }}</a> bądź <a class="btn btn-outline-primary" href="{{ path('user_register') }}">{{ 'action.register'|trans }}</a> aby komentować i oceniać.</p>
+    {% endif %}
+    <h2>Komentarze</h2>
     <ul>
         {% for comment in comments %}
             <li>

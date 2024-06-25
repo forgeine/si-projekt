@@ -1,18 +1,37 @@
 {# templates/registration/register.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'action.register'|trans }}{% endblock %}
 
 {% block body %}
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% else %}
-        <h1>Register</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn">Register</button>
-        {{ form_end(form) }}
-    {% endif %}
+    <form method="post">
+        {% if app.user %}
+            <div class="text-center">
+                Jesteś zalogowany jako {{ app.user.userIdentifier }}, wylogować? <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
+            </div>
+        {% else %}
+            <h1 class="h3 mb-3 font-weight-normal">{{ 'action.register'|trans }}</h1>
+
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                <label for="inputEmail">{{ 'label.email'|trans }}</label>
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'inputEmail', 'required': 'required', 'autofocus': 'autofocus'}}) }}
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword">{{ 'label.password'|trans }}</label>
+                {{ form_widget(form.password.first, {'attr': {'class': 'form-control', 'id': 'inputPassword', 'required': 'required'}}) }}
+            </div>
+
+            <div class="form-group">
+                <label for="inputPasswordRepeat">{{ 'label.password_repeat'|trans }}</label>
+                {{ form_widget(form.password.second, {'attr': {'class': 'form-control', 'id': 'inputPasswordRepeat', 'required': 'required'}}) }}
+            </div>
+
+            <button class="btn btn-lg btn-primary" type="submit">{{ 'action.register'|trans }}</button>
+
+            {{ form_end(form) }}
+        {% endif %}
+    </form>
 {% endblock %}

@@ -54,6 +54,13 @@ class AdminUserController extends AbstractController
         ]);
     }
 
+    /**
+     * @param User $user
+     * @param Request $request
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/change-password/{id}', name: 'admin_change_password')]
     public function changePassword(User $user, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
     {
@@ -77,14 +84,19 @@ class AdminUserController extends AbstractController
     #[Route('/delete/{id}', name: 'delete_user', methods: ['POST'])]
     public function delete(User $user, EntityManagerInterface $em): Response
     {
-        // Usunięcie przepisów użytkownika
+        $currentUser = $this->getUser();
+
+        if ($currentUser->getId() === $user->getId()) {
+            $this->addFlash('warning', $this->translator->trans('message.cannot_delete_yourself'));
+            return $this->redirectToRoute('edit_users');
+        }
+
         $recipes = $this->recipeRepository->findBy(['author' => $user]);
 
         foreach ($recipes as $recipe) {
             $em->remove($recipe);
         }
 
-        // Usunięcie użytkownika
         $em->remove($user);
         $em->flush();
 

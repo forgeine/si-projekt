@@ -6,21 +6,22 @@
 
 {% block body %}
     <h1>{{ 'title.recipe_list'|trans }}</h1>
-
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a class="btn btn-outline-success me-2" style="display: inline-block; float:right;" href="{{ url('recipe_create') }}" title="{{ 'action.create'|trans }}">
+            {{ 'action.create'|trans }}
+        </a>
+    {% endif %}
     {% if app.user %}
         {% if app.request.attributes.get('_route') == 'recipe_index' %}
-            <div>
-                <a href="{{ path('recipe_own') }}">{{ 'action.own'|trans }}</a>
-            </div>
+            <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2" href="{{ path('recipe_own') }}">{{ 'action.own'|trans }}</a>
+            <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_index') }}">{{ 'action.clear'|trans }}</a>
         {% else %}
-            <div>
-                <a href="{{ path('recipe_index') }}">{{ 'action.index'|trans }}</a>
-            </div>
+            <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_index') }}">{{ 'action.index'|trans }}</a>
+            <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_own') }}">{{ 'action.clear'|trans }}</a>
         {% endif %}
     {% endif %}
-
     {% if pagination is defined and pagination.items|length %}
-        <div class="navigation text-center">
+        <div style="display: inline-block;" class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
 
@@ -38,11 +39,6 @@
             </tr>
             </thead>
             <tbody>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a href="{{ url('recipe_create') }}" title="{{ 'action.create'|trans }}">
-                    {{ 'action.create'|trans }}
-                </a>
-            {% endif %}
             {% for recipe in pagination.items %}
                 <tr>
                     <td>{{ recipe.createdAt|format_date('long') }}</td>
@@ -72,7 +68,7 @@
                         {# tutaj #}
                         {% endif %}
                     </td>
-                    <td>
+                    <td style="width:30%;">
                         <a class="btn btn-outline-primary" href="{{ url('recipe_show', {id: recipe.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>

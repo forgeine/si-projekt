@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Dto\RecipeListFiltersDto;
+use App\Entity\Rating;
 use App\Repository\CommentRepository;
 use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Comment;
@@ -13,6 +14,7 @@ use App\Entity\Enum\RecipeStatus;
 use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Repository\RatingRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -40,7 +42,7 @@ class RecipeService implements RecipeServiceInterface
      * @param RecipeRepository     $recipeRepository recipe repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly CommentRepository $commentRepository, private readonly RecipeRepository $recipeRepository)
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly CommentRepository $commentRepository, private readonly RecipeRepository $recipeRepository, private readonly RatingRepository $ratingRepository)
     {
     }
 
@@ -124,4 +126,9 @@ class RecipeService implements RecipeServiceInterface
     {
         $this->commentRepository->delete($comment);
     }
+    public function saveRating(Rating $rating): void
+    {
+        $this->ratingRepository->save($rating);
+    }
+
 }

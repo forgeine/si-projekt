@@ -39,10 +39,6 @@ class UserProfileController extends AbstractController
             $this->addFlash('success', $this->translator->trans('message.created_successfully'));
             return $this->redirectToRoute('profile_edit');
         }
-        else{
-            $this->addFlash('warning', $this->translator->trans('message.record_not_found'));
-
-        }
 
         return $this->render('profile/user/edit.html.twig', [
         'form' => $form->createView(),

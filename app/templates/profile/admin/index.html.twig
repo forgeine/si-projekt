@@ -3,13 +3,13 @@
 {% block title %}Manage Users{% endblock %}
 
 {% block body %}
-    <h1>Manage Users</h1>
-    <table class="table">
+    <h1>{{ 'action.edit_users'|trans }}</h1>
+    <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Actions</th>
+            <th>{{ 'label.user_id'|trans }}</th>
+            <th>{{ 'label.user'|trans }}</th>
+            <th>{{ 'label.actions'|trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -18,11 +18,11 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <a href="{{ path('edit_user', {id: user.id}) }}" class="btn btn-outline-primary">Edit</a>
-                    <a href="{{ path('admin_change_password', {id: user.id}) }}" class="btn btn-outline-primary">Change Password</a>
+                    <a href="{{ path('edit_user', {id: user.id}) }}" class="btn btn-outline-primary">{{ 'action.edit'|trans }}</a>
+                    <a href="{{ path('admin_change_password', {id: user.id}) }}" class="btn btn-outline-primary">{{ 'action.edit_password'|trans }}</a>
                     <form method="post" action="{{ path('delete_user', {id: user.id}) }}" style="display:inline-block;" onsubmit="return confirm('delete?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-                        <button class="btn btn-outline-danger">Delete</button>
+                        <button class="btn btn-outline-danger">{{ 'action.delete'|trans }}</button>
                     </form>
                 </td>
             </tr>

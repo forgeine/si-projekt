@@ -1,5 +1,4 @@
 <?php
-// src/Form/Type/RatingType.php
 namespace App\Form\Type;
 
 use App\Entity\Rating;
@@ -22,7 +21,7 @@ class RatingType extends AbstractType
                     '5' => 5,
                 ],
                 'expanded' => true,
-                'label' => 'Rating',
+                'label' => 'Ocena',
             ]);
     }
 

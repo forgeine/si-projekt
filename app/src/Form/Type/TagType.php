@@ -59,6 +59,6 @@ class TagType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'category';
+        return 'tag';
     }
 }

@@ -13,19 +13,19 @@ class UserPasswordType extends AbstractType
     {
         $builder
             ->add('currentPassword', PasswordType::class, [
-                'label' => 'Current Password',
+                'label' => 'label.password_current',
                 'required' => true,
             ])
             ->add('newPassword', PasswordType::class, [
-                'label' => 'New Password',
+                'label' => 'label.password_new',
                 'required' => true,
             ])
             ->add('confirmNewPassword', PasswordType::class, [
-                'label' => 'Confirm New Password',
+                'label' => 'label.password_repeat',
                 'required' => true,
-            ]);
+            ])
+            ->add('save', SubmitType::class, ['label' => 'action.edit_password']);
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([]);

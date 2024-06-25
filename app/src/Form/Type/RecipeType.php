@@ -68,7 +68,7 @@ class RecipeType extends AbstractType
             'tags',
             TextType::class,
             [
-                'label' => 'label.tags',
+                'label' => 'label.tag',
                 'required' => false,
                 'attr' => ['max_length' => 128],
             ]

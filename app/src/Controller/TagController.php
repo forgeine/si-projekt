@@ -145,14 +145,14 @@ class TagController extends AbstractController
      * @param Tag $tag
      * @return Response
      */
-    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
+    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: ['GET|DELETE'])]
     public function delete(Request $request, Tag $tag): Response
     {
         $user = $this->getUser();
         if (!$this->isGranted('ROLE_ADMIN') || !$user){
             return $this->redirectToRoute('tag_index');
         }
-        if(!$this->tagService->canBeDeleted($tag)) {
+        if (!$this->tagService->canBeDeleted($tag)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.tag_contains_recipes')
@@ -165,7 +165,7 @@ class TagController extends AbstractController
             FormType::class,
             $tag,
             [
-                'method' => 'POST',
+                'method' => 'DELETE',
                 'action' => $this->generateUrl('tag_delete', ['id' => $tag->getId()]),
             ]
         );

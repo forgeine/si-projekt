@@ -18,6 +18,10 @@ class RatingRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Rating::class);
     }
-
+    public function save(Rating $rating): void
+    {
+        $this->_em->persist($rating);
+        $this->_em->flush();
+    }
     // Optional: Add custom query methods here
 }

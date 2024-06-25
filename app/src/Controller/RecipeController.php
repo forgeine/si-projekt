@@ -238,8 +238,7 @@ class RecipeController extends AbstractController
                 'success',
                 $this->translator->trans('message.edited_successfully')
             );
-
-            return $this->render('recipe/show.html.twig', ['recipe' => $recipe]);
+            return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
 
         return $this->render(
@@ -310,34 +309,32 @@ class RecipeController extends AbstractController
     public function rateRecipe(Request $request, Recipe $recipe, RatingRepository $ratingRepository): Response
     {
         $user = $this->getUser();
-
-        // Check if the user has already rated this recipe
-        $existingRating = $this->doctrine->getRepository(Rating::class)->findOneBy([
+        $existingRating = $ratingRepository->findOneBy([
             'recipe' => $recipe,
             'user' => $user,
         ]);
-
         if ($existingRating) {
-            $this->addFlash('warning', 'already rated');
-            return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
+            $rating = $existingRating;
+        } else {
+            $rating = new Rating();
+            $rating->setRecipe($recipe);
+            $rating->setUser($user);
         }
-
-        $rating = new Rating();
-        $rating->setRecipe($recipe);
-        $rating->setUser($user);
-
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
-            $entityManager->persist($rating);
-            $entityManager->flush();
+            $this->recipeService->saveRating($rating);
 
             $recipe->calculateAverageRating();
             $entityManager->persist($recipe);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.rated_successfully')
+            );
             return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
 
@@ -345,34 +342,5 @@ class RecipeController extends AbstractController
             'recipe' => $recipe,
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * Calculate average rating for a recipe.
-     *
-     * @param Recipe $recipe
-     * @return Response
-     */
-    private function calculateAverageRating(Recipe $recipe, RatingRepository $ratingRepository): void
-    {
-        $entityManager = $this->doctrine->getManager();
-
-        $sum = 0;
-        $ratings = $recipe->getRatings();
-        $count = $ratings->count();
-
-        if ($count > 0) {
-            foreach ($ratings as $rating) {
-                $sum += $rating->getValue();
-            }
-            $averageRating = $sum / $count;
-        } else {
-            $averageRating = null;
-        }
-
-        $recipe->setAverageRating($averageRating);
-
-        $entityManager->persist($recipe);
-        $entityManager->flush();
     }
 }

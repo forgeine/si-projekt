@@ -7,19 +7,17 @@
 {% block body %}
     <h1>{{ 'title.tag_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
-
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ url('tag_create') }}" title="{{ 'action.create'|trans }}">
+            <a class="btn btn-outline-success me-2" style="display: inline-block; float:right;" href="{{ url('tag_create') }}" title="{{ 'action.create'|trans }}">
                 {{ 'action.create'|trans }}
             </a>
         {% endif %}
-        <table class="table table-striped">
+        <div style="display: inline-block;" class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <table class="table table-striped" >
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'tag.id') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'tag.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'tag.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'tag.title') }}</th>
@@ -29,7 +27,6 @@
             <tbody>
             {% for tag in pagination.items %}
                 <tr>
-                    <td>{{ tag.id }}</td>
                     <td>{{ tag.createdAt|format_date('long') }}</td>
                     <td>{{ tag.updatedAt|format_date('long') }}</td>
                     <td>{{ tag.title }}</td>

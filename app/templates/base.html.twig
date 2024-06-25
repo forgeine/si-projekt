@@ -12,82 +12,52 @@
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     {% endblock %}
 </head>
-<body style="padding: 5px;">
-<main role="main" class="container-fluid">
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<body style="background: #222222; padding: 0px 30px 15px 30px;">
+{% for type, messages in app.session.flashBag.all %}
+    {% for message in messages %}
+        {% include 'default/_single_alert_message.html.twig' %}
+    {% endfor %}
+{% endfor %}
+<main role="main" class="container-fluid" style="background: #bbbbbb;padding:0; padding-bottom: 25px;">
+    <div class="d-flex justify-content-between align-items-center" style="background: #222222;padding: 25px;">
         <div>
-            <a class="btn btn-outline-danger" href="{{ url('app_logout') }}">{{ 'action.logout'|trans }}</a>
-        </div>
-        {% if app.request.attributes.get('_route') == 'profile_index'%}
-            <div>
-                <p>{{ app.user.email }}</p>
-            </div>
-        {% else %}
-            <div>
-                <a href="{{ url('profile_index') }}">{{ app.user.email }}</a>
-            </div>
-        {% endif %}
-
-    {% else %}
-        <div>
-        {% if app.request.attributes.get('_route') == 'app_login'%}
-            <p style="display: inline-block;" class="btn btn-outline-primary">{{ 'action.login'|trans }}</p>
-        {% else %}
-            <a class="btn btn-outline-primary" href="{{ url('app_login') }}">{{ 'action.login'|trans }}</a>
-        {% endif %}
-            {% if app.request.attributes.get('_route') == 'user_register'%}
-                <p class="btn btn-outline-primary">{{ 'action.register'|trans }}</p>
-            {% else %}
-                <a class="btn btn-outline-primary" href="{{ url('user_register') }}">{{ 'action.register'|trans }}</a>
+            <a class="btn btn-outline-light me-2" href="{{ url('recipe_index') }}">{{ 'action.index'|trans}}</a>
+            <a class="btn btn-outline-light me-2" href="{{ url('category_index') }}">{{ 'action.category_index'|trans}}</a>
+            <a class="btn btn-outline-light me-2" href="{{ url('tag_index') }}">{{ 'action.tag_index'|trans}}</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn btn-outline-light me-2" href="{{ url('edit_users') }}">{{ 'action.edit_users'|trans }}</a>
             {% endif %}
         </div>
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ url('edit_users') }}">{{ 'action.edit_users'|trans }}</a>
-    {% endif %}
-    {% if app.request.attributes.get('_route') == 'recipe_index'%}
         <div>
-            <p>{{ 'action.index'|trans}}</p>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a class="btn btn-outline-danger me-2" href="{{ url('app_logout') }}">{{ 'action.logout'|trans }}</a>
+                {% if app.request.attributes.get('_route') == 'profile_index'%}
+                    <div style="display: inline-block;" class="btn btn-outline-primary me-2">{{ app.user.email }}</div>
+                {% else %}
+                    <a class="btn btn-outline-primary me-2" href="{{ url('profile_index') }}">{{ app.user.email }}</a>
+                {% endif %}
+            {% else %}
+                {% if app.request.attributes.get('_route') == 'app_login'%}
+                    <div style="display: inline-block;" class="btn btn-outline-primary me-2">{{ 'action.login'|trans }}</div>
+                {% else %}
+                    <a class="btn btn-outline-primary me-2" href="{{ url('app_login') }}">{{ 'action.login'|trans }}</a>
+                {% endif %}
+                {% if app.request.attributes.get('_route') == 'user_register'%}
+                    <div style="display: inline-block;" class="btn btn-outline-primary me-2">{{ 'action.register'|trans }}</div>
+                {% else %}
+                    <a class="btn btn-outline-primary me-2" href="{{ url('user_register') }}">{{ 'action.register'|trans }}</a>
+                {% endif %}
+            {% endif %}
         </div>
-    {% else %}
-        <div>
-            <a href="{{ url('recipe_index') }}">{{ 'action.index'|trans}}</a>
-        </div>
-    {% endif %}
-    {% if app.request.attributes.get('_route') == 'category_index'%}
-        <div>
-            <p>{{ 'action.category_index'|trans}}</p>
-        </div>
-    {% else %}
-        <div>
-            <a href="{{ url('category_index') }}">{{ 'action.category_index'|trans}}</a>
-        </div>
-    {% endif %}
-    {% if app.request.attributes.get('_route') == 'tag_index'%}
-        <div>
-            <p>{{ 'action.tag_index'|trans}}</p>
-        </div>
-    {% else %}
-        <div>
-            <a href="{{ url('tag_index') }}">{{ 'action.tag_index'|trans}}</a>
-        </div>
-    {% endif %}
-    {#<div class="container-fluid">#}
-        {#  {% for type, messages in app.session.flashBag.all %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %} #}
-        {% block body %}{% endblock %}
+    </div>
+    <div style="padding: 10px;">
+    {% block body %}
+    {% endblock %}
     </div>
 </main>
 
 {% block javascripts %}
-    {# {% block importmap %}{{ importmap('app') }}{% endblock %}#}
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
             integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

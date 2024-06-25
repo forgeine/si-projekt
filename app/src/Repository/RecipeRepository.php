@@ -174,4 +174,26 @@ class RecipeRepository extends ServiceEntityRepository
         }
         return $queryBuilder;
     }
+    private function calculateAverageRating(Recipe $recipe): void
+    {
+        $entityManager = $this->doctrine->getManager();
+
+        $sum = 0;
+        $ratings = $recipe->getRatings();
+        $count = $ratings->count();
+
+        if ($count > 0) {
+            foreach ($ratings as $rating) {
+                $sum += $rating->getValue();
+            }
+            $averageRating = $sum / $count;
+        } else {
+            $averageRating = null;
+        }
+
+        $recipe->setAverageRating($averageRating);
+
+        $entityManager->persist($recipe);
+        $entityManager->flush();
+    }
 }
