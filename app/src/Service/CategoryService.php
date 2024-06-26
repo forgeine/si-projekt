@@ -6,10 +6,9 @@
 namespace App\Service;
 
 use App\Entity\Category;
-//use App\Form\Type\CategoryType;
+// use App\Form\Type\CategoryType;
 use App\Repository\CategoryRepository;
 use App\Repository\RecipeRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -24,6 +23,7 @@ class CategoryService implements CategoryServiceInterface
 {
     /**
      * Items per page.
+     *
      * @constant int
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
@@ -32,12 +32,10 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository $categoryRepository Category repository
-     * @param PaginatorInterface $paginator      Paginator
-     * @param RecipeRepository $recipeRepository Recipe repository
+     * @param PaginatorInterface $paginator          Paginator
+     * @param RecipeRepository   $recipeRepository   Recipe repository
      */
-    public function __construct(private readonly CategoryRepository $categoryRepository,
-                                private readonly PaginatorInterface $paginator,
-                                private readonly RecipeRepository $recipeRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly PaginatorInterface $paginator, private readonly RecipeRepository $recipeRepository)
     {
     }
 
@@ -61,6 +59,7 @@ class CategoryService implements CategoryServiceInterface
      * Save entity.
      *
      * @param Category $category Category entity
+     *
      * @throws ORMException
      */
     public function save(Category $category): void
@@ -70,8 +69,13 @@ class CategoryService implements CategoryServiceInterface
 
     /**
      * Delete entity
-     * @throws OptimisticLockException
+     *
+     * @param Category $category
+     *
+     * @return void
+     *
      * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Category $category): void
     {
@@ -88,13 +92,14 @@ class CategoryService implements CategoryServiceInterface
     public function canBeDeleted(Category $category): bool
     {
         try {
-            $result = $this-> recipeRepository ->countByCategory($category);
+            $result = $this->recipeRepository->countByCategory($category);
 
             return !($result > 0);
         } catch (NoResultException|NonUniqueResultException) {
             return false;
         }
     }
+
     /**
      * Find by id.
      *
@@ -108,9 +113,4 @@ class CategoryService implements CategoryServiceInterface
     {
         return $this->categoryRepository->findOneById($id);
     }
-
-
-
-
-
 }

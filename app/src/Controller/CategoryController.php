@@ -27,23 +27,25 @@ class CategoryController extends AbstractController
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
-     * @param TranslatorInterface      $translator  Translator
+     * @param TranslatorInterface      $translator      Translator
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly TranslatorInterface $translator)
     {
     }
 
     /**
-     * Editing categories, action edit
-     * @param Request $request
+     * Editing categories, action edit.
+     *
+     * @param Request  $request
      * @param Category $category
+     *
      * @return Response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Category $category): Response
     {
         $user = $this->getUser();
-        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+        if (!$this->isGranted('ROLE_ADMIN') || !$user) {
             return $this->redirectToRoute('category_index');
         }
         $form = $this->createForm(
@@ -75,12 +77,13 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Index action
+     * Index action.
+     *
      * @param int $page
+     *
      * @return Response
      */
     #[Route(name: 'category_index', methods: 'GET')]
-    //#[IsGranted('ROLE_ADMIN')]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
         $pagination = $this->categoryService->getPaginatedList($page);
@@ -89,8 +92,10 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Details of category, action show
+     * Details of category, action show.
+     *
      * @param Category $category
+     *
      * @return Response
      */
     #[Route(
@@ -107,8 +112,10 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Creating categories, action create
+     * Creating categories, action create.
+     *
      * @param Request $request
+     *
      * @return Response
      */
     #[Route(
@@ -119,7 +126,7 @@ class CategoryController extends AbstractController
     public function create(Request $request): Response
     {
         $user = $this->getUser();
-        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+        if (!$this->isGranted('ROLE_ADMIN') || !$user) {
             return $this->redirectToRoute('category_index');
         }
         $category = new Category();
@@ -142,24 +149,27 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Deleting category, action delete
-     * @param Request $request
+     * Deleting category, action delete.
+     *
+     * @param Request  $request
      * @param Category $category
+     *
      * @return Response
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Category $category): Response
     {
         $user = $this->getUser();
-        if (!$this->isGranted('ROLE_ADMIN') || !$user){
+        if (!$this->isGranted('ROLE_ADMIN') || !$user) {
             return $this->redirectToRoute('category_index');
         }
-        //Checking if contains a recipe
-        if(!$this->categoryService->canBeDeleted($category)) {
+        // Checking if contains a recipe
+        if (!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.category_contains_recipes')
             );
+
             return $this->redirectToRoute('category_index');
         }
         $form = $this->createForm(

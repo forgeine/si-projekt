@@ -2,9 +2,9 @@
 /**
  * Recipe entity.
  */
+
 namespace App\Entity;
 
-use App\Entity\Rating;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Recipe.
+ *
  * @psalm-suppress MissingConstructor
  */
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
@@ -25,6 +26,7 @@ class Recipe
 {
     /**
      * Primary key.
+     *
      * @var int|null
      */
     #[ORM\Id]
@@ -34,6 +36,7 @@ class Recipe
 
     /**
      * Title.
+     *
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
@@ -44,6 +47,7 @@ class Recipe
 
     /**
      * Created at.
+     *
      * @var \DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
@@ -53,6 +57,7 @@ class Recipe
 
     /**
      * Updated at.
+     *
      * @var \DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
@@ -62,15 +67,17 @@ class Recipe
 
     /**
      * Content.
+     *
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3)] //do zmiany
+    #[Assert\Length(min: 3)] // do zmiany
     private ?string $content = null;
 
     /**
      * Category.
+     *
      * @var Category|null
      */
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
@@ -81,6 +88,7 @@ class Recipe
 
     /**
      * Slug.
+     *
      * @var string|null
      */
     #[ORM\Column(length: 255)]
@@ -89,6 +97,7 @@ class Recipe
 
     /**
      * Tags.
+     *
      * @var Collection<int, Tag>
      */
     #[Assert\Valid]
@@ -109,28 +118,31 @@ class Recipe
 
     /**
      * Comments.
+     *
      * @var Collection<int, Comment>
      */
     #[Assert\Valid]
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]    #[ORM\JoinTable(name: 'recipes_comments')]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)] #[ORM\JoinTable(name: 'recipes_comments')]
     private Collection $comments;
 
     /**
      * Ratings.
+     *
      * @var Collection<int, Rating>
      */
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class, cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class, cascade: ['remove'])]
     private Collection $ratings;
 
     /**
      * AverageRating.
+     *
      * @var float|null
      */
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -141,6 +153,7 @@ class Recipe
 
     /**
      * Getter for Id.
+     *
      * @return int|null Id
      */
     public function getId(): ?int
@@ -150,6 +163,7 @@ class Recipe
 
     /**
      * Getter for Title.
+     *
      * @return string|null Title
      */
     public function getTitle(): ?string
@@ -158,8 +172,10 @@ class Recipe
     }
 
     /**
-     * Setter for title
+     * Setter for title.
+     *
      * @param string $title
+     *
      * @return $this
      */
     public function setTitle(string $title): static
@@ -170,8 +186,10 @@ class Recipe
     }
 
     /**
-     * Setter for id
+     * Setter for id.
+     *
      * @param int $id
+     *
      * @return $this
      */
     public function setId(int $id): static
@@ -182,7 +200,8 @@ class Recipe
     }
 
     /**
-     * Getter for createdAt
+     * Getter for createdAt.
+     *
      * @return \DateTimeImmutable|null
      */
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -191,8 +210,10 @@ class Recipe
     }
 
     /**
-     * Setter for createdAt
+     * Setter for createdAt.
+     *
      * @param \DateTimeImmutable $createdAt
+     *
      * @return $this
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
@@ -203,7 +224,8 @@ class Recipe
     }
 
     /**
-     * Getter for updatedAt
+     * Getter for updatedAt.
+     *
      * @return \DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
@@ -212,8 +234,10 @@ class Recipe
     }
 
     /**
-     * Setter for updatedAt
+     * Setter for updatedAt.
+     *
      * @param \DateTimeImmutable $updatedAt
+     *
      * @return $this
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
@@ -224,7 +248,8 @@ class Recipe
     }
 
     /**
-     * Getter for content
+     * Getter for content.
+     *
      * @return string|null
      */
     public function getContent(): ?string
@@ -233,8 +258,10 @@ class Recipe
     }
 
     /**
-     * Setter for content
+     * Setter for content.
+     *
      * @param string $content
+     *
      * @return $this
      */
     public function setContent(string $content): static
@@ -245,7 +272,8 @@ class Recipe
     }
 
     /**
-     * Getter for category
+     * Getter for category.
+     *
      * @return Category|null
      */
     public function getCategory(): ?Category
@@ -254,8 +282,10 @@ class Recipe
     }
 
     /**
-     * Setter for category
+     * Setter for category.
+     *
      * @param Category|null $category
+     *
      * @return $this
      */
     public function setCategory(?Category $category): static
@@ -266,7 +296,8 @@ class Recipe
     }
 
     /**
-     * Getter for slug
+     * Getter for slug.
+     *
      * @return string|null
      */
     public function getSlug(): ?string
@@ -275,8 +306,10 @@ class Recipe
     }
 
     /**
-     * Setter for slug
+     * Setter for slug.
+     *
      * @param string $slug
+     *
      * @return $this
      */
     public function setSlug(string $slug): static
@@ -287,7 +320,8 @@ class Recipe
     }
 
     /**
-     * Getter for tags
+     * Getter for tags.
+     *
      * @return Collection<int, Tag>
      */
     public function getTags(): Collection
@@ -296,8 +330,10 @@ class Recipe
     }
 
     /**
-     * Add for tags
+     * Add for tags.
+     *
      * @param Tag $tag
+     *
      * @return $this
      */
     public function addTag(Tag $tag): static
@@ -310,8 +346,10 @@ class Recipe
     }
 
     /**
-     * Remove for tag
+     * Remove for tag.
+     *
      * @param Tag $tag
+     *
      * @return $this
      */
     public function removeTag(Tag $tag): static
@@ -322,7 +360,8 @@ class Recipe
     }
 
     /**
-     * Getter for author
+     * Getter for author.
+     *
      * @return User|null
      */
     public function getAuthor(): ?User
@@ -331,8 +370,10 @@ class Recipe
     }
 
     /**
-     * Setter for author
+     * Setter for author.
+     *
      * @param User|null $author
+     *
      * @return $this
      */
     public function setAuthor(?User $author): static
@@ -343,7 +384,8 @@ class Recipe
     }
 
     /**
-     * Getter for comments
+     * Getter for comments.
+     *
      * @return Collection
      */
     public function getComments(): Collection
@@ -355,8 +397,10 @@ class Recipe
     }
 
     /**
-     * Add for comments
+     * Add for comments.
+     *
      * @param Comment $comment
+     *
      * @return $this
      */
     public function addComment(Comment $comment): static
@@ -369,8 +413,10 @@ class Recipe
     }
 
     /**
-     * Remove for comments
+     * Remove for comments.
+     *
      * @param Comment $comment
+     *
      * @return $this
      */
     public function removeComment(Comment $comment): static
@@ -381,7 +427,8 @@ class Recipe
     }
 
     /**
-     * Getter for averageRating
+     * Getter for averageRating.
+     *
      * @return float|null
      */
     public function getAverageRating(): ?float
@@ -390,8 +437,10 @@ class Recipe
     }
 
     /**
-     * Setter for averageRating
+     * Setter for averageRating.
+     *
      * @param float $averageRating
+     *
      * @return $this
      */
     public function setAverageRating(float $averageRating): self
@@ -402,7 +451,8 @@ class Recipe
     }
 
     /**
-     * Getter for ratings
+     * Getter for ratings.
+     *
      * @return Collection
      */
     public function getRatings(): Collection
@@ -411,8 +461,10 @@ class Recipe
     }
 
     /**
-     * Add for ratings
-     * @param \App\Entity\Rating $rating
+     * Add for ratings.
+     *
+     * @param Rating $rating
+     *
      * @return $this
      */
     public function addRating(Rating $rating): self
@@ -426,8 +478,10 @@ class Recipe
     }
 
     /**
-     * Remove for ratings
-     * @param \App\Entity\Rating $rating
+     * Remove for ratings.
+     *
+     * @param Rating $rating
+     *
      * @return $this
      */
     public function removeRating(Rating $rating): self
@@ -442,17 +496,18 @@ class Recipe
     }
 
     /**
-     * Operation for averageRating
+     * Operation for averageRating.
+     *
      * @return void
      */
     public function calculateAverageRating(): void
     {
         $sum = 0;
         $count = 0;
-        if ($this->ratings !== null) {
+        if (null !== $this->ratings) {
             foreach ($this->ratings as $rating) {
                 $sum += $rating->getValue();
-                $count++;
+                ++$count;
             }
         }
         if ($count > 0) {

@@ -1,22 +1,22 @@
 <?php
 /**
- * Rating
+ * Rating.
  */
+
 namespace App\Entity;
 
 use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Rating
+ * Class Rating.
  */
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ORM\Table(name: 'ratings')]
 class Rating
 {
     /**
-     * Primary key
-     * @var int|null
+     * Primary key.
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,23 +24,20 @@ class Rating
     private ?int $id = null;
 
     /**
-     * Value
-     * @var int|null
+     * Value.
      */
     #[ORM\Column(type: 'integer')]
     private ?int $value = null;
 
     /**
-     * Recipe relation
-     * @var Recipe|null
+     * Recipe relation.
      */
     #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Recipe $recipe = null;
 
     /**
-     * User relation
-     * @var User|null
+     * User relation.
      */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,7 +45,8 @@ class Rating
     // Getters and setters
 
     /**
-     * Getter for id
+     * Getter for id.
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -57,7 +55,8 @@ class Rating
     }
 
     /**
-     * Getter for value
+     * Getter for value.
+     *
      * @return int|null
      */
     public function getValue(): ?int
@@ -66,8 +65,10 @@ class Rating
     }
 
     /**
-     * Setter for value
+     * Setter for value.
+     *
      * @param int $value
+     *
      * @return $this
      */
     public function setValue(int $value): self
@@ -78,7 +79,8 @@ class Rating
     }
 
     /**
-     * Getter for recipe
+     * Getter for recipe.
+     *
      * @return Recipe|null
      */
     public function getRecipe(): ?Recipe
@@ -87,8 +89,10 @@ class Rating
     }
 
     /**
-     * Setter for recipe
+     * Setter for recipe.
+     *
      * @param Recipe|null $recipe
+     *
      * @return $this
      */
     public function setRecipe(?Recipe $recipe): self
@@ -99,7 +103,8 @@ class Rating
     }
 
     /**
-     * Getter for user
+     * Getter for user.
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -108,8 +113,10 @@ class Rating
     }
 
     /**
-     * Setter for user
+     * Setter for user.
+     *
      * @param User|null $user
+     *
      * @return $this
      */
     public function setUser(?User $user): self

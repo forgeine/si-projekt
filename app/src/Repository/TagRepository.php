@@ -2,20 +2,20 @@
 /**
  * Tag repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
+
 /**
- * Class TagRepository
+ * Class TagRepository.
+ *
  * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
  * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
  * @method Tag[]    findAll()
@@ -48,21 +48,10 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create query builder.
-     *
-     * @param QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        return $queryBuilder ?? $this->createQueryBuilder('tag');
-    }
-
-    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
+     *
      * @throws ORMException
      */
     public function save(Tag $tag): void
@@ -71,6 +60,7 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->persist($tag);
         $this->_em->flush();
     }
+
     /**
      * Delete entity.
      *
@@ -84,5 +74,17 @@ class TagRepository extends ServiceEntityRepository
         assert($this->_em instanceof EntityManager);
         $this->_em->remove($tag);
         $this->_em->flush();
+    }
+
+    /**
+     * Get or create query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 }

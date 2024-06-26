@@ -1,7 +1,13 @@
 <?php
+/**
+ * Recipe status.
+ */
 
 namespace App\Entity\Enum;
 
+/**
+ * Enum RecipeStatus.
+ */
 enum RecipeStatus: int
 {
     case PENDING = 1;
@@ -16,7 +22,7 @@ enum RecipeStatus: int
      */
     public function getDescription(): string
     {
-        return match($this) {
+        return match ($this) {
             self::PENDING => 'Pending',
             self::ACTIVE => 'Active',
             self::COMPLETED => 'Completed',
@@ -27,7 +33,7 @@ enum RecipeStatus: int
     /**
      * Get all possible statuses as an array.
      *
-     * @return array
+     * @return RecipeStatus[]
      */
     public static function getAllStatuses(): array
     {

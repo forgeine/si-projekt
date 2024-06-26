@@ -57,7 +57,7 @@ class CategoryVoter extends Voter
     }
 
     /**
-     * Vote on attribute
+     * Vote on attribute.
      *
      * @param string         $attribute Permission name
      * @param mixed          $subject   Object
@@ -84,7 +84,6 @@ class CategoryVoter extends Voter
             default => false,
         };
     }
-
 
     /**
      * Checks if user can view category.

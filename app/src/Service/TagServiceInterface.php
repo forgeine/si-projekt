@@ -23,15 +23,19 @@ interface TagServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     /**
-     * Save entity
+     * Save entity.
+     *
      * @param Tag $tag
+     *
      * @return void
      */
     public function save(Tag $tag): void;
 
     /**
-     * Delete entity
+     * Delete entity.
+     *
      * @param Tag $tag
+     *
      * @return void
      */
     public function delete(Tag $tag): void;
@@ -40,6 +44,7 @@ interface TagServiceInterface
      * Can Category be deleted?
      *
      * @param Tag $tag Tag entity
+     *
      * @return bool Result
      */
     public function canBeDeleted(Tag $tag): bool;

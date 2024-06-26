@@ -1,7 +1,8 @@
 <?php
 /**
- * UserPasswordType
+ * UserPasswordType.
  */
+
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -11,14 +12,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class UserPasswordType
+ * Class UserPasswordType.
  */
 class UserPasswordType extends AbstractType
 {
     /**
-     * Builds form
+     * Builds form.
+     *
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
+     *
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -40,8 +43,10 @@ class UserPasswordType extends AbstractType
     }
 
     /**
-     * Configures options
+     * Configures options.
+     *
      * @param OptionsResolver $resolver
+     *
      * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void

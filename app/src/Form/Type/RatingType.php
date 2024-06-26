@@ -1,7 +1,8 @@
 <?php
 /**
- * RatingType
+ * RatingType.
  */
+
 namespace App\Form\Type;
 
 use App\Entity\Rating;
@@ -12,14 +13,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RatingType
+ * Class RatingType.
  */
 class RatingType extends AbstractType
 {
     /**
-     * Builds form
+     * Builds form.
+     *
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
+     *
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -40,8 +43,10 @@ class RatingType extends AbstractType
     }
 
     /**
-     * Configures options
+     * Configures options.
+     *
      * @param OptionsResolver $resolver
+     *
      * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void

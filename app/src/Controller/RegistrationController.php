@@ -1,7 +1,8 @@
 <?php
 /**
- * RegistrationController
+ * RegistrationController.
  */
+
 namespace App\Controller;
 
 use App\Entity\Enum\UserRole;
@@ -16,23 +17,27 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class RegistrationController
+ * Class RegistrationController.
  */
 #[Route('/register')]
 class RegistrationController extends AbstractController
 {
     /**
+     * Construct
+     *
      * @param UserPasswordHasherInterface $passwordHasher
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface         $translator
      */
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly TranslatorInterface $translator)
     {
     }
 
     /**
-     * Registration of users
-     * @param Request $request
+     * Registration of users.
+     *
+     * @param Request                $request
      * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     #[Route(name: 'user_register')]

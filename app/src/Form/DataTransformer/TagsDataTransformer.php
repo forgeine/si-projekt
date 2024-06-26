@@ -7,7 +7,6 @@ namespace App\Form\DataTransformer;
 
 use App\Entity\Tag;
 use App\Repository\TagRepository;
-use App\Service\TagServiceInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -22,7 +21,7 @@ class TagsDataTransformer implements DataTransformerInterface
     /**
      * Constructor.
      *
-     * @param TagServiceInterface $tagService Tag service
+     * @param TagRepository $tagRepository
      */
     public function __construct(private readonly TagRepository $tagRepository)
     {

@@ -24,13 +24,11 @@ class UserFixtures extends AbstractBaseFixtures
     }
 
     /**
-     * LoadData
-     * @return void
+     * LoadData.
      */
     protected function loadData(): void
     {
         if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
-
             return;
         }
         $this->createMany(10, 'users', function (int $i) {

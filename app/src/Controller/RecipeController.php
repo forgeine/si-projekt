@@ -5,18 +5,16 @@
 
 namespace App\Controller;
 
+use App\Dto\RecipeListInputFiltersDto;
 use App\Entity\Comment;
 use App\Entity\Rating;
 use App\Entity\Recipe;
 use App\Entity\User;
-use App\Dto\RecipeListInputFiltersDto;
 use App\Form\Type\CommentType;
 use App\Form\Type\RatingType;
-use App\Repository\CommentRepository;
+use App\Form\Type\RecipeType;
 use App\Repository\RatingRepository;
 use App\Resolver\RecipeListInputFiltersDtoResolver;
-use App\Form\Type\RecipeType;
-use App\Service\RecipeService;
 use App\Service\RecipeServiceInterface;
 use App\Service\TagServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,13 +22,11 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -41,38 +37,45 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RecipeController extends AbstractController
 {
     /**
+     * Constructor
+     *
      * @param RecipeServiceInterface $recipeService
-     * @param TagServiceInterface $tagService
-     * @param TranslatorInterface $translator
-     * @param Security $security
-     * @param ManagerRegistry $doctrine
+     * @param TagServiceInterface    $tagService
+     * @param TranslatorInterface    $translator
+     * @param Security               $security
+     * @param ManagerRegistry        $doctrine
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator, private readonly Security $security, private readonly ManagerRegistry $doctrine)
     {
     }
 
     /**
-     * Recipe index
+     * Recipe index.
+     *
      * @param RecipeListInputFiltersDto $filters
-     * @param int $page
+     * @param int                       $page
+     *
      * @return Response
      */
     #[Route(name: 'recipe_index', methods: 'GET')]
     public function index(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
-        $user = $this ->getUser();
+        $user = $this->getUser();
         $pagination = $this->recipeService->getPaginatedList(
             $page,
             null,
             $filters
         );
+
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
-     * Own recipes
+     * Own recipes.
+     *
      * @param RecipeListInputFiltersDto $filters
-     * @param int $page
+     * @param int                       $page
+     *
      * @return Response
      */
     #[Route(
@@ -82,20 +85,23 @@ class RecipeController extends AbstractController
     )]
     public function own(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
-        $user = $this ->getUser();
+        $user = $this->getUser();
         $pagination = $this->recipeService->getPaginatedList(
             $page,
             $user,
             $filters
         );
+
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
     }
 
     /**
-     * Recipe details, actions show
-     * @param Recipe $recipe
-     * @param Request $request
+     * Recipe details, actions show.
+     *
+     * @param Recipe                 $recipe
+     * @param Request                $request
      * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     #[Route(
@@ -133,20 +139,23 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Deleting a comment, action deleteComment
-     * @param Request $request
-     * @param Recipe $recipe
-     * @param Comment $comment
+     * Deleting a comment, action deleteComment.
+     *
+     * @param Request                $request
+     * @param Recipe                 $recipe
+     * @param Comment                $comment
      * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     #[Route(
         '/{recipe_id}/comment/{id}/delete',
         name: 'comment_delete',
         requirements: ['id' => '[1-9]\d*', 'recipe_id' => '[1-9]\d*'],
-        methods: 'POST')]
+        methods: 'POST'
+    )]
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteComment(Request $request,Recipe $recipe, Comment $comment, EntityManagerInterface $em): Response
+    public function deleteComment(Request $request, Recipe $recipe, Comment $comment, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         if (!$user || ($comment->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN'))) {
@@ -172,12 +181,13 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Create a recipe, action create
+     * Create a recipe, action create.
+     *
      * @param Request $request
+     *
      * @return Response
      */
     #[Route('/create', name: 'recipe_create', methods: 'GET|POST')]
-    //#[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $user = $this->getUser();
@@ -206,17 +216,18 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Editing a recipe, action edit
+     * Editing a recipe, action edit.
+     *
      * @param Request $request
-     * @param Recipe $recipe
+     * @param Recipe  $recipe
+     *
      * @return Response
      */
     #[Route('/{id}/edit', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    //#[IsGranted('EDIT', subject: 'recipe')]
     public function edit(Request $request, Recipe $recipe): Response
     {
         $user = $this->getUser();
-        if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user){
+        if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.recipe_no_permission')
@@ -229,7 +240,7 @@ class RecipeController extends AbstractController
             $recipe,
             [
                 'method' => 'POST',
-                'action' => $this->generateUrl('recipe_edit', ['id' => $recipe->getId()])]
+                'action' => $this->generateUrl('recipe_edit', ['id' => $recipe->getId()]), ]
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -251,18 +262,20 @@ class RecipeController extends AbstractController
         );
     }
 
+
     /**
-     * Deleting a recipe, action delete
+     * Deleting a recipe, action delete.
+     *
      * @param Request $request
-     * @param Recipe $recipe
+     * @param Recipe  $recipe
+     *
      * @return Response
      */
     #[Route('/{id}/delete', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
-    //#[IsGranted('DELETE', subject: 'recipe')]
     public function delete(Request $request, Recipe $recipe): Response
     {
         $user = $this->getUser();
-        if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user){
+        if ($recipe->getAuthor() !== $user && !$this->isGranted('ROLE_ADMIN') || !$user) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.recipe_no_permission')
@@ -299,10 +312,12 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Rating a recipe, action rateRecipe
-     * @param Request $request
-     * @param Recipe $recipe
+     * Rating a recipe, action rateRecipe.
+     *
+     * @param Request          $request
+     * @param Recipe           $recipe
      * @param RatingRepository $ratingRepository
+     *
      * @return Response
      */
     #[Route(

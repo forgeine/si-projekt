@@ -18,6 +18,7 @@ class CategoryType extends AbstractType
 {
     /**
      * Builds form.
+     *
      * @param FormBuilderInterface $builder The form builder
      * @param array<string, mixed> $options Form options
      *
@@ -32,11 +33,12 @@ class CategoryType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ]);
+            ]
+        );
     }
 
     /**
-     * Configures options
+     * Configures options.
      *
      * @param OptionsResolver $resolver The resolver for the options
      */
@@ -46,7 +48,8 @@ class CategoryType extends AbstractType
     }
 
     /**
-     * GetBlockPrefix
+     * GetBlockPrefix.
+     *
      * @return string
      */
     public function getBlockPrefix(): string

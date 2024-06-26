@@ -1,6 +1,6 @@
 <?php
 /**
- * Comment
+ * Comment.
  */
 
 namespace App\Entity;
@@ -8,18 +8,19 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Comment
+ * Class Comment.
  */
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\Table(name: 'comments')]
 class Comment
 {
     /**
-     * Primary key id
+     * Primary key id.
+     *
      * @var int|null
      */
     #[ORM\Id]
@@ -28,38 +29,44 @@ class Comment
     private ?int $id = null;
 
     /**
-     * createdAt
+     * createdAt.
+     *
      * @var \DateTimeImmutable|null
      */
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
+
     /**
-     * content
+     * content.
+     *
      * @var string|null
      */
-    #[ORM\Column(type: types::TEXT)]
+    #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3)]
     private ?string $content = null;
 
     /**
-     * Recipe relation
+     * Recipe relation.
+     *
      * @var Recipe|null
      */
     #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'comments')]
     private ?Recipe $recipe = null;
 
     /**
-     * Author relation
+     * Author relation.
+     *
      * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $author = null;
 
     /**
-     * Getter for id
+     * Getter for id.
+     *
      * @return int|null
      */
     public function getId(): ?int
@@ -68,7 +75,8 @@ class Comment
     }
 
     /**
-     * Getter for content
+     * Getter for content.
+     *
      * @return string|null
      */
     public function getContent(): ?string
@@ -77,8 +85,10 @@ class Comment
     }
 
     /**
-     * Setter for content
+     * Setter for content.
+     *
      * @param string $content
+     *
      * @return $this
      */
     public function setContent(string $content): static
@@ -89,7 +99,8 @@ class Comment
     }
 
     /**
-     * Getter for recipe
+     * Getter for recipe.
+     *
      * @return Recipe|null
      */
     public function getRecipe(): ?Recipe
@@ -98,8 +109,10 @@ class Comment
     }
 
     /**
-     * Setter for recipe
+     * Setter for recipe.
+     *
      * @param Recipe|null $recipe
+     *
      * @return $this
      */
     public function setRecipe(?Recipe $recipe): static
@@ -110,7 +123,8 @@ class Comment
     }
 
     /**
-     * Getter for author
+     * Getter for author.
+     *
      * @return User|null
      */
     public function getAuthor(): ?User
@@ -119,8 +133,10 @@ class Comment
     }
 
     /**
-     * Setter for author
+     * Setter for author.
+     *
      * @param User|null $author
+     *
      * @return $this
      */
     public function setAuthor(?User $author): static
@@ -131,7 +147,8 @@ class Comment
     }
 
     /**
-     * Getter for createdAt
+     * Getter for createdAt.
+     *
      * @return \DateTimeImmutable|null
      */
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -140,8 +157,10 @@ class Comment
     }
 
     /**
-     * Setter for createdAt
+     * Setter for createdAt.
+     *
      * @param \DateTimeImmutable $createdAt
+     *
      * @return $this
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static

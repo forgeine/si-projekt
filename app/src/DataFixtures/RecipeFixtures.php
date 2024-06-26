@@ -5,15 +5,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
-use App\Entity\Enum\RecipeStatus;
-use App\Entity\Tag;
 use App\Entity\Recipe;
-use App\Entity\User;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class RecipeFixtures.
@@ -30,7 +25,6 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
     public function loadData(): void
     {
         if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
-
             return;
         }
         $this->createMany(100, 'recipes', function (int $i) {
@@ -58,6 +52,7 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             }
             $author = $this->getRandomReference('users');
             $recipe->setAuthor($author);
+
             return $recipe;
         });
         $this->manager->flush();

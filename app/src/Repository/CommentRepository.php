@@ -1,7 +1,8 @@
 <?php
 /**
- * CommentRepository
+ * CommentRepository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Comment;
@@ -9,12 +10,13 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class CommentRepository
+ * Class CommentRepository.
  */
 class CommentRepository extends ServiceEntityRepository
 {
     /**
-     * Construct
+     * Construct.
+     *
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
@@ -23,8 +25,10 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /**
-     * Save entity
+     * Save entity.
+     *
      * @param Comment $comment
+     *
      * @return void
      */
     public function save(Comment $comment): void
@@ -34,8 +38,10 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /**
-     * Delete entity
+     * Delete entity.
+     *
      * @param Comment $comment
+     *
      * @return void
      */
     public function delete(Comment $comment): void

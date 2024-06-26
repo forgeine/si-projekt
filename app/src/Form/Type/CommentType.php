@@ -1,7 +1,8 @@
 <?php
 /**
- * CommentType
+ * CommentType.
  */
+
 namespace App\Form\Type;
 
 use App\Entity\Comment;
@@ -11,14 +12,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class CommentType
+ * Class CommentType.
  */
 class CommentType extends AbstractType
 {
     /**
-     * Builds form
+     * Builds form.
+     *
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
+     *
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -30,8 +33,10 @@ class CommentType extends AbstractType
     }
 
     /**
-     * Configures options
+     * Configures options.
+     *
      * @param OptionsResolver $resolver
+     *
      * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void

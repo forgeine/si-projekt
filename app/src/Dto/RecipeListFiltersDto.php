@@ -19,7 +19,7 @@ class RecipeListFiltersDto
      *
      * @param Category|null $category   Category entity
      * @param Tag|null      $tag        Tag entity
-     * @param RecipeStatus    $taskStatus Task status
+     * @param RecipeStatus  $taskStatus Task status
      */
     public function __construct(public readonly ?Category $category, public readonly ?Tag $tag, public readonly RecipeStatus $taskStatus)
     {

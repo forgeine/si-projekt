@@ -5,7 +5,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,8 +23,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,8 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Email.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank]
@@ -51,14 +46,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * Ratings
+     * Ratings.
+     *
      * @var Collection<int, Rating>
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class)]
     private Collection $ratings;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -66,8 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     /**
      * Password.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
@@ -144,10 +138,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Setter for roles.
      *
      * @param array<int, string> $roles Roles
+     *
+     * @return $this
      */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
         return $this;
     }
 
@@ -174,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Erase credentials
+     * Erase credentials.
      *
      * @see UserInterface
      */
@@ -184,6 +181,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Getter for ratings.
+     *
      * @return Collection
      */
     public function getRatings(): Collection
@@ -193,7 +191,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Add for ratings.
+     *
      * @param Rating $rating
+     *
      * @return $this
      */
     public function addRating(Rating $rating): self
@@ -207,8 +207,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Remove for ratings
+     * Remove for ratings.
+     *
      * @param Rating $rating
+     *
      * @return $this
      */
     public function removeRating(Rating $rating): self

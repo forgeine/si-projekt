@@ -6,10 +6,9 @@
 namespace App\Service;
 
 use App\Entity\Tag;
-//use App\Form\Type\TagType;
-use App\Repository\TagRepository;
+// use App\Form\Type\TagType;
 use App\Repository\RecipeRepository;
-use Doctrine\ORM\EntityManager;
+use App\Repository\TagRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -32,13 +31,11 @@ class TagService implements TagServiceInterface
     /**
      * Constructor.
      *
-     * @param TagRepository $tagRepository Tag repository
-     * @param PaginatorInterface $paginator      Paginator
-     * @param RecipeRepository $recipeRepository Recipe repository
+     * @param TagRepository      $tagRepository    Tag repository
+     * @param PaginatorInterface $paginator        Paginator
+     * @param RecipeRepository   $recipeRepository Recipe repository
      */
-    public function __construct(private readonly TagRepository $tagRepository,
-                                private readonly PaginatorInterface $paginator,
-                                private readonly RecipeRepository $recipeRepository)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator, private readonly RecipeRepository $recipeRepository)
     {
     }
 
@@ -62,6 +59,7 @@ class TagService implements TagServiceInterface
      * Save entity.
      *
      * @param Tag $tag Tag entity
+     *
      * @throws ORMException
      */
     public function save(Tag $tag): void
@@ -70,10 +68,12 @@ class TagService implements TagServiceInterface
     }
 
     /**
-     * Delete entity
+     * Delete entity.
      *
      * @param Tag $tag
+     *
      * @return void
+     *
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -85,20 +85,21 @@ class TagService implements TagServiceInterface
     /**
      * Can tag be deleted?
      *
-     * @param Tag $tags Tag entity
+     * @param Tag $tag
      *
-     * @return bool Result
+     * @return bool
      */
     public function canBeDeleted(Tag $tag): bool
     {
         try {
-            $result = $this-> recipeRepository ->countBytag($tag);
+            $result = $this->recipeRepository->countBytag($tag);
 
             return !($result > 0);
         } catch (NoResultException|NonUniqueResultException) {
             return false;
         }
     }
+
     /**
      * Find by id.
      *
@@ -112,9 +113,4 @@ class TagService implements TagServiceInterface
     {
         return $this->tagRepository->findOneById($id);
     }
-
-
-
-
-
 }

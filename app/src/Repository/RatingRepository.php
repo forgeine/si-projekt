@@ -1,6 +1,6 @@
 <?php
 /**
- * RatingRepository
+ * RatingRepository.
  */
 
 namespace App\Repository;
@@ -10,7 +10,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class RatingRepository
+ * Class RatingRepository.
+ *
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
  * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
  * @method Rating[]    findAll()
@@ -19,7 +20,8 @@ use Doctrine\Persistence\ManagerRegistry;
 class RatingRepository extends ServiceEntityRepository
 {
     /**
-     * Construct
+     * Construct.
+     *
      * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
@@ -28,8 +30,10 @@ class RatingRepository extends ServiceEntityRepository
     }
 
     /**
-     * Save entity
+     * Save entity.
+     *
      * @param Rating $rating
+     *
      * @return void
      */
     public function save(Rating $rating): void

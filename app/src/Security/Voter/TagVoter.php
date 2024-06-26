@@ -47,11 +47,11 @@ class TagVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof tag;
+            && $subject instanceof Tag;
     }
 
     /**
-     * Vote on attribute
+     * Vote on attribute.
      *
      * @param string         $attribute Permission name
      * @param mixed          $subject   Object
@@ -63,7 +63,7 @@ class TagVoter extends Voter
     {
         $user = $token->getUser();
 
-        if ($attribute === self::VIEW) {
+        if (self::VIEW === $attribute) {
             return $this->canView();
         }
 

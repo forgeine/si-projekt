@@ -1,6 +1,6 @@
 <?php
 /**
- * AdminUserController
+ * AdminUserController.
  */
 
 namespace App\Controller;
@@ -8,8 +8,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Type\AdminEditType;
 use App\Form\Type\AdminPasswordType;
-use App\Repository\UserRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,22 +19,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class AdminUserController
+ * Class AdminUserController.
  */
 #[Route('/users')]
 class AdminUserController extends AbstractController
 {
     /**
+     * Constructor
+     *
      * @param TranslatorInterface $translator
-     * @param RecipeRepository $recipeRepository
+     * @param RecipeRepository    $recipeRepository
      */
     public function __construct(private TranslatorInterface $translator, private RecipeRepository $recipeRepository)
     {
     }
 
     /**
-     * Index for admin tools
+     * Index for admin tools.
+     *
      * @param UserRepository $userRepository
+     *
      * @return Response
      */
     #[Route(name: 'edit_users')]
@@ -48,10 +52,12 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * Admin tool for changing email of users
-     * @param User $user
-     * @param Request $request
+     * Admin tool for changing email of users.
+     *
+     * @param User                   $user
+     * @param Request                $request
      * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     #[Route('/edit/{id}', name: 'edit_user')]
@@ -74,11 +80,13 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * Admin tool for changing passwords
-     * @param User $user
-     * @param Request $request
+     * Admin tool for changing passwords.
+     *
+     * @param User                        $user
+     * @param Request                     $request
      * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface      $em
+     *
      * @return Response
      */
     #[Route('/change-password/{id}', name: 'admin_change_password')]
@@ -102,9 +110,11 @@ class AdminUserController extends AbstractController
     }
 
     /**
-     * Admin tool for deleting users and their content
-     * @param User $user
+     * Admin tool for deleting users and their content.
+     *
+     * @param User                   $user
      * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     #[Route('/delete/{id}', name: 'delete_user', methods: ['POST'])]
@@ -113,6 +123,7 @@ class AdminUserController extends AbstractController
         $currentUser = $this->getUser();
         if ($currentUser->getId() === $user->getId()) {
             $this->addFlash('danger', $this->translator->trans('message.cannot_delete_yourself'));
+
             return $this->redirectToRoute('edit_users');
         }
         $recipes = $this->recipeRepository->findBy(['author' => $user]);
