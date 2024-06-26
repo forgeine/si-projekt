@@ -25,10 +25,6 @@ class TagService implements TagServiceInterface
     /**
      * Items per page.
      *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in app/config/config.yml.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
      * @constant int
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
@@ -70,17 +66,16 @@ class TagService implements TagServiceInterface
      */
     public function save(Tag $tag): void
     {
-        // if (null == $tag->getId()) {
-        //    $tag->setCreatedAt(new \DateTimeImmutable());
-        // }
-        //$tag->setUpdatedAt(new \DateTimeImmutable());
-
         $this->tagRepository->save($tag);
     }
 
     /**
-     * @throws OptimisticLockException
+     * Delete entity
+     *
+     * @param Tag $tag
+     * @return void
      * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(Tag $tag): void
     {

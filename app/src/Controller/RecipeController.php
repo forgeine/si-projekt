@@ -44,20 +44,20 @@ class RecipeController extends AbstractController
      * @param RecipeServiceInterface $recipeService
      * @param TagServiceInterface $tagService
      * @param TranslatorInterface $translator
+     * @param Security $security
+     * @param ManagerRegistry $doctrine
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator, private readonly Security $security, private readonly ManagerRegistry $doctrine)
     {
     }
 
     /**
-     * Index action.
-     *
-     * @param int $page Page number
-     *
-     * @return Response HTTP response
+     * Recipe index
+     * @param RecipeListInputFiltersDto $filters
+     * @param int $page
+     * @return Response
      */
     #[Route(name: 'recipe_index', methods: 'GET')]
-    //#[IsGranted('ROLE_ADMIN')]
     public function index(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
         $user = $this ->getUser();
@@ -69,12 +69,17 @@ class RecipeController extends AbstractController
         return $this->render('recipe/index.html.twig', ['pagination' => $pagination]);
     }
 
+    /**
+     * Own recipes
+     * @param RecipeListInputFiltersDto $filters
+     * @param int $page
+     * @return Response
+     */
     #[Route(
         '/own',
         name: 'recipe_own',
         methods: 'GET'
     )]
-    //#[IsGranted('ROLE_ADMIN')]
     public function own(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
         $user = $this ->getUser();
@@ -87,11 +92,11 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param Recipe $recipe recipe
-     *
-     * @return Response HTTP response
+     * Recipe details, actions show
+     * @param Recipe $recipe
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
      */
     #[Route(
         '/{id}',
@@ -102,25 +107,20 @@ class RecipeController extends AbstractController
     public function show(Recipe $recipe, Request $request, EntityManagerInterface $em): Response
     {
         $comments = $recipe->getComments();
-
         $user = $this->security->getUser();
         $commentForm = null;
-
         if ($user instanceof User) {
             $comment = new Comment();
             $comment->setRecipe($recipe);
             $comment->setAuthor($user);
-
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->recipeService->saveComment($comment);
                 $this->addFlash('success', $this->translator->trans('message.created_comment_successfully'));
 
                 return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
             }
-
             $commentForm = $form->createView();
         }
 
@@ -131,6 +131,15 @@ class RecipeController extends AbstractController
             'commentForm' => $commentForm,
         ]);
     }
+
+    /**
+     * Deleting a comment, action deleteComment
+     * @param Request $request
+     * @param Recipe $recipe
+     * @param Comment $comment
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route(
         '/{recipe_id}/comment/{id}/delete',
         name: 'comment_delete',
@@ -149,10 +158,10 @@ class RecipeController extends AbstractController
             'action' => $this->generateUrl('comment_delete', ['recipe_id' => $recipeId, 'id' => $comment->getId()]),
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->recipeService->deleteComment($comment);
             $this->addFlash('success', $this->translator->trans('message.deleted_comment_successfully'));
+
             return $this->redirectToRoute('recipe_show', ['id' => $recipeId]);
         }
 
@@ -163,17 +172,14 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
+     * Create a recipe, action create
+     * @param Request $request
+     * @return Response
      */
     #[Route('/create', name: 'recipe_create', methods: 'GET|POST')]
     //#[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
-        /** @var User $user */
         $user = $this->getUser();
         $recipe = new Recipe();
         $recipe->setAuthor($user);
@@ -183,10 +189,8 @@ class RecipeController extends AbstractController
             ['action' => $this->generateUrl('recipe_create')]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->recipeService->save($recipe);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_recipe_successfully')
@@ -202,12 +206,10 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Edit action.
-     *
-     * @param Request $request HTTP request
-     * @param Recipe    $recipe    Recipe entity
-     *
-     * @return Response HTTP response
+     * Editing a recipe, action edit
+     * @param Request $request
+     * @param Recipe $recipe
+     * @return Response
      */
     #[Route('/{id}/edit', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     //#[IsGranted('EDIT', subject: 'recipe')]
@@ -230,14 +232,13 @@ class RecipeController extends AbstractController
                 'action' => $this->generateUrl('recipe_edit', ['id' => $recipe->getId()])]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->recipeService->save($recipe);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.edited_recipe_successfully')
             );
+
             return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
 
@@ -251,12 +252,10 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * Delete action.
-     *
-     * @param Request $request HTTP request
-     * @param Recipe    $recipe    Recipe entity
-     *
-     * @return Response HTTP response
+     * Deleting a recipe, action delete
+     * @param Request $request
+     * @param Recipe $recipe
+     * @return Response
      */
     #[Route('/{id}/delete', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     //#[IsGranted('DELETE', subject: 'recipe')]
@@ -280,10 +279,8 @@ class RecipeController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->recipeService->delete($recipe);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.deleted_recipe_successfully')
@@ -301,6 +298,13 @@ class RecipeController extends AbstractController
         );
     }
 
+    /**
+     * Rating a recipe, action rateRecipe
+     * @param Request $request
+     * @param Recipe $recipe
+     * @param RatingRepository $ratingRepository
+     * @return Response
+     */
     #[Route(
         '/{id}/rate',
         name: 'recipe_rate',
@@ -323,19 +327,17 @@ class RecipeController extends AbstractController
         }
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
             $this->recipeService->saveRating($rating);
-
             $recipe->calculateAverageRating();
             $entityManager->persist($recipe);
             $entityManager->flush();
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.rated_successfully')
             );
+
             return $this->redirectToRoute('recipe_show', ['id' => $recipe->getId()]);
         }
 

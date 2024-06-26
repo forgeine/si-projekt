@@ -49,9 +49,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
+    /**
+     * Ratings
+     * @var Collection<int, Rating>
+     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class)]
     private Collection $ratings;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
@@ -96,7 +104,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
+     * Getter for userIdentifier.
      *
      * @return string User identifier
      *
@@ -108,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     * Getter for username.
      *
      * @return string Username
      */
@@ -127,7 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -167,31 +174,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * Removes sensitive information from the token.
+     * Erase credentials
      *
      * @see UserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
+
+    /**
+     * Getter for ratings.
+     * @return Collection
+     */
     public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
+    /**
+     * Add for ratings.
+     * @param Rating $rating
+     * @return $this
+     */
     public function addRating(Rating $rating): self
     {
         if (!$this->ratings->contains($rating)) {
@@ -202,10 +206,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * Remove for ratings
+     * @param Rating $rating
+     * @return $this
+     */
     public function removeRating(Rating $rating): self
     {
         if ($this->ratings->removeElement($rating)) {
-            // set the owning side to null (unless already changed)
             if ($rating->getUser() === $this) {
                 $rating->setUser(null);
             }

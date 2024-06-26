@@ -19,6 +19,8 @@
             <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_index') }}">{{ 'action.index'|trans }}</a>
             <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_own') }}">{{ 'action.clear'|trans }}</a>
         {% endif %}
+    {% else %}
+        <a style="display: inline-block; float:right;" class="btn btn-outline-primary me-2"  href="{{ path('recipe_index') }}">{{ 'action.clear'|trans }}</a>
     {% endif %}
     {% if pagination is defined and pagination.items|length %}
         <div style="display: inline-block;" class="navigation text-center">

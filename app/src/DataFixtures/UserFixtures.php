@@ -24,14 +24,15 @@ class UserFixtures extends AbstractBaseFixtures
     }
 
     /**
-     * Load data.
+     * LoadData
+     * @return void
      */
     protected function loadData(): void
     {
         if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
+
             return;
         }
-
         $this->createMany(10, 'users', function (int $i) {
             $user = new User();
             $user->setEmail(sprintf('user%d@example.com', $i));
@@ -45,7 +46,6 @@ class UserFixtures extends AbstractBaseFixtures
 
             return $user;
         });
-
         $this->createMany(3, 'admins', function (int $i) {
             $user = new User();
             $user->setEmail(sprintf('admin%d@example.com', $i));
@@ -59,7 +59,6 @@ class UserFixtures extends AbstractBaseFixtures
 
             return $user;
         });
-
         $this->manager->flush();
     }
 }

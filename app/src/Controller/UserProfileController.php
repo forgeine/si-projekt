@@ -1,4 +1,7 @@
 <?php
+/**
+ * UserProfileController
+ */
 namespace App\Controller;
 
 use App\Form\Type\UserEditType;
@@ -14,29 +17,48 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-//use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+/**
+ * Class UserProfileController
+ */
 #[Route('/profile')]
 class UserProfileController extends AbstractController
-    {
-    public function __construct(private UserPasswordHasherInterface $passwordHasher, private Security $security,private readonly TranslatorInterface $translator)
+{
+    /**
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param Security $security
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly Security $security,private readonly TranslatorInterface $translator)
     {
     }
+
+    /**
+     * User edit index
+     * @param Request $request
+     * @return Response
+     */
     #[Route(name: 'profile_index')]
     public function index(Request $request): Response
     {
         return $this->render('profile/user/index.html.twig');
     }
+
+    /**
+     * Changing own email, action edit
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/edit', name: 'profile_edit')]
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()){
             $em->flush();
             $this->addFlash('success', $this->translator->trans('message.user_updated_successfully'));
+
             return $this->redirectToRoute('profile_edit');
         }
 
@@ -45,6 +67,13 @@ class UserProfileController extends AbstractController
         ]);
     }
 
+    /**
+     * Changing your own password, action changePassword
+     * @param Request $request
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/change-password', name: 'profile_password')]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
     {

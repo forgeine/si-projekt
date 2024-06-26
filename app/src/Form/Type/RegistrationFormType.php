@@ -1,4 +1,7 @@
 <?php
+/**
+ * RegistrationFormType
+ */
 namespace App\Form\Type;
 
 use App\Entity\User;
@@ -9,8 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class RegistrationFormType
+ */
 class RegistrationFormType extends AbstractType
 {
+    /**
+     * Builds form
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -22,6 +34,11 @@ class RegistrationFormType extends AbstractType
             ]);
     }
 
+    /**
+     * Configures options
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -34,12 +34,10 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Edit action.
-     *
-     * @param Request  $request  HTTP request
-     * @param Category $category Category entity
-     *
-     * @return Response HTTP response
+     * Editing categories, action edit
+     * @param Request $request
+     * @param Category $category
+     * @return Response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Category $category): Response
@@ -57,10 +55,8 @@ class CategoryController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.edited_category_successfully')
@@ -79,9 +75,9 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Index action.
-     *
-     * @return Response HTTP response
+     * Index action
+     * @param int $page
+     * @return Response
      */
     #[Route(name: 'category_index', methods: 'GET')]
     //#[IsGranted('ROLE_ADMIN')]
@@ -93,11 +89,9 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param Category $category Category
-     *
-     * @return Response HTTP response
+     * Details of category, action show
+     * @param Category $category
+     * @return Response
      */
     #[Route(
         '/{id}',
@@ -112,13 +106,10 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    // ...
     /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
+     * Creating categories, action create
+     * @param Request $request
+     * @return Response
      */
     #[Route(
         '/create',
@@ -134,10 +125,8 @@ class CategoryController extends AbstractController
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_category_successfully')
@@ -153,6 +142,7 @@ class CategoryController extends AbstractController
     }
 
     /**
+     * Deleting category, action delete
      * @param Request $request
      * @param Category $category
      * @return Response
@@ -164,6 +154,7 @@ class CategoryController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN') || !$user){
             return $this->redirectToRoute('category_index');
         }
+        //Checking if contains a recipe
         if(!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
@@ -171,7 +162,6 @@ class CategoryController extends AbstractController
             );
             return $this->redirectToRoute('category_index');
         }
-
         $form = $this->createForm(
             FormType::class,
             $category,
@@ -181,10 +171,8 @@ class CategoryController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->delete($category);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.deleted_category_successfully')

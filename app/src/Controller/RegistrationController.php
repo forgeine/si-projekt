@@ -1,4 +1,7 @@
 <?php
+/**
+ * RegistrationController
+ */
 namespace App\Controller;
 
 use App\Entity\Enum\UserRole;
@@ -12,14 +15,26 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class RegistrationController
+ */
 #[Route('/register')]
 class RegistrationController extends AbstractController
 {
-    public function __construct(
-        private UserPasswordHasherInterface $passwordHasher,
-        private TranslatorInterface $translator
-    ) {}
+    /**
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly TranslatorInterface $translator)
+    {
+    }
 
+    /**
+     * Registration of users
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route(name: 'user_register')]
     public function register(Request $request, EntityManagerInterface $em): Response
     {
@@ -27,7 +42,6 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $user->setRoles([UserRole::ROLE_USER->value]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
                 $this->passwordHasher->hashPassword(
@@ -37,7 +51,6 @@ class RegistrationController extends AbstractController
             );
             $em->persist($user);
             $em->flush();
-
             $this->addFlash('success', $this->translator->trans('message.registration_successful'));
 
             return $this->redirectToRoute('profile_index');

@@ -47,7 +47,7 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
+     * Get or create query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
      *

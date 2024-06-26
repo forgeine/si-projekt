@@ -1,4 +1,7 @@
 <?php
+/**
+ * Category
+ */
 
 namespace App\Entity;
 
@@ -8,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Class Category.
@@ -57,23 +59,19 @@ class Category
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
-//    #[Gedmo\Slug(fields: ['title'])]
     #[Assert\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 64)]
     private ?string $title = null;
-
+    /**
+     * Slug
+     * @var string|null
+     */
     #[ORM\Column(type: 'string', length: 64)]
     #[Gedmo\Slug(fields: ['title'])]
     #[Assert\Length(min: 3, max: 64)]
     private ?string $slug = null;
 
-    /**#[ORM\Column(length: 64, nullable: true)]
-    #[Assert\Type('string')]
-    #[Assert\Length(min: 3, max: 64)]
-    #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug = null;
-*/
     /**
      * Getter for Id.
      *
@@ -146,28 +144,25 @@ class Category
     {
         $this->title = $title;
     }
-/**
+
+    /**
+     * Getter for slug
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * Setter for slug
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
 
         return $this;
-    }*/
-
-public function getSlug(): ?string
-{
-    return $this->slug;
-}
-
-public function setSlug(string $slug): static
-{
-    $this->slug = $slug;
-
-    return $this;
-}
+    }
 }

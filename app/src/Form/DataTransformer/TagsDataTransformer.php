@@ -9,6 +9,7 @@ use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Service\TagServiceInterface;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**
@@ -55,6 +56,8 @@ class TagsDataTransformer implements DataTransformerInterface
      * @param string $value String of tag names
      *
      * @return array<int, Tag> Result
+     *
+     * @throws ORMException
      */
     public function reverseTransform($value): array
     {

@@ -31,12 +31,18 @@ class TagController extends AbstractController
     {
     }
 
-
+    /**
+     * Editing a tag, action edit
+     * @param Request $request
+     * @param Tag $tag
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Tag $tag): Response
     {
         $user = $this->getUser();
         if (!$this->isGranted('ROLE_ADMIN') || !$user){
+
             return $this->redirectToRoute('tag_index');
         }
         $form = $this->createForm(
@@ -48,10 +54,8 @@ class TagController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->tagService->save($tag);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.edited_tag_successfully')
@@ -70,9 +74,9 @@ class TagController extends AbstractController
     }
 
     /**
-     * Index action.
-     *
-     * @return Response HTTP response
+     * Action index
+     * @param int $page
+     * @return Response
      */
     #[Route(name: 'tag_index', methods: 'GET')]
     public function index(#[MapQueryParameter] int $page = 1): Response
@@ -83,11 +87,9 @@ class TagController extends AbstractController
     }
 
     /**
-     * Show action.
-     *
-     * @param Tag $tag Tag
-     *
-     * @return Response HTTP response
+     * Details of a tag, action show
+     * @param Tag $tag
+     * @return Response
      */
     #[Route(
         '/{id}',
@@ -97,16 +99,14 @@ class TagController extends AbstractController
     )]
     public function show(Tag $tag): Response
     {
+
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
     }
 
-    // ...
     /**
-     * Create action.
-     *
-     * @param Request $request HTTP request
-     *
-     * @return Response HTTP response
+     * Creating new tag, action create
+     * @param Request $request
+     * @return Response
      */
     #[Route(
         '/create',
@@ -122,7 +122,6 @@ class TagController extends AbstractController
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->tagService->save($tag);
 
@@ -141,6 +140,7 @@ class TagController extends AbstractController
     }
 
     /**
+     * Deleting a tag, action delete
      * @param Request $request
      * @param Tag $tag
      * @return Response
@@ -150,8 +150,10 @@ class TagController extends AbstractController
     {
         $user = $this->getUser();
         if (!$this->isGranted('ROLE_ADMIN') || !$user){
+
             return $this->redirectToRoute('tag_index');
         }
+        //Checking if tag contains a recipe
         if (!$this->tagService->canBeDeleted($tag)) {
             $this->addFlash(
                 'warning',
@@ -160,7 +162,6 @@ class TagController extends AbstractController
 
             return $this->redirectToRoute('tag_index');
         }
-
         $form = $this->createForm(
             FormType::class,
             $tag,
@@ -170,10 +171,8 @@ class TagController extends AbstractController
             ]
         );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->tagService->delete($tag);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.deleted_tag_successfully')

@@ -31,8 +31,9 @@ class Recipe
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
+
     /**
-     * Created at.
+     * Title.
      * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
@@ -40,6 +41,7 @@ class Recipe
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     private ?string $title = null;
+
     /**
      * Created at.
      * @var \DateTimeImmutable|null
@@ -48,6 +50,7 @@ class Recipe
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
+
     /**
      * Updated at.
      * @var \DateTimeImmutable|null
@@ -56,6 +59,7 @@ class Recipe
     #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
+
     /**
      * Content.
      * @var string|null
@@ -64,9 +68,10 @@ class Recipe
     #[Assert\NotBlank]
     #[Assert\Length(min: 3)] //do zmiany
     private ?string $content = null;
+
     /**
      * Category.
-     * @var Category
+     * @var Category|null
      */
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[Assert\Type(Category::class)]
@@ -74,17 +79,23 @@ class Recipe
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    /**
+     * Slug.
+     * @var string|null
+     */
     #[ORM\Column(length: 255)]
     #[Gedmo\Slug(fields: ['title'])]
     private ?string $slug = null;
 
     /**
+     * Tags.
      * @var Collection<int, Tag>
      */
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'recipes_tags')]
     private Collection $tags;
+
     /**
      * Author.
      *
@@ -95,22 +106,39 @@ class Recipe
     #[Assert\NotBlank]
     #[Assert\Type(User::class)]
     private ?User $author;
+
     /**
+     * Comments.
      * @var Collection<int, Comment>
      */
     #[Assert\Valid]
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]    #[ORM\JoinTable(name: 'recipes_comments')]
     private Collection $comments;
+
+    /**
+     * Ratings.
+     * @var Collection<int, Rating>
+     */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class, cascade: ["remove"])]
     private Collection $ratings;
+
+    /**
+     * AverageRating.
+     * @var float|null
+     */
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->ratings = new ArrayCollection();
     }
+
     /**
      * Getter for Id.
      * @return int|null Id
@@ -130,8 +158,9 @@ class Recipe
     }
 
     /**
-     * Setter for title.
+     * Setter for title
      * @param string $title
+     * @return $this
      */
     public function setTitle(string $title): static
     {
@@ -141,6 +170,7 @@ class Recipe
     }
 
     /**
+     * Setter for id
      * @param int $id
      * @return $this
      */
@@ -152,6 +182,7 @@ class Recipe
     }
 
     /**
+     * Getter for createdAt
      * @return \DateTimeImmutable|null
      */
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -160,6 +191,7 @@ class Recipe
     }
 
     /**
+     * Setter for createdAt
      * @param \DateTimeImmutable $createdAt
      * @return $this
      */
@@ -171,6 +203,7 @@ class Recipe
     }
 
     /**
+     * Getter for updatedAt
      * @return \DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
@@ -179,6 +212,7 @@ class Recipe
     }
 
     /**
+     * Setter for updatedAt
      * @param \DateTimeImmutable $updatedAt
      * @return $this
      */
@@ -190,6 +224,7 @@ class Recipe
     }
 
     /**
+     * Getter for content
      * @return string|null
      */
     public function getContent(): ?string
@@ -198,6 +233,7 @@ class Recipe
     }
 
     /**
+     * Setter for content
      * @param string $content
      * @return $this
      */
@@ -209,6 +245,7 @@ class Recipe
     }
 
     /**
+     * Getter for category
      * @return Category|null
      */
     public function getCategory(): ?Category
@@ -217,6 +254,7 @@ class Recipe
     }
 
     /**
+     * Setter for category
      * @param Category|null $category
      * @return $this
      */
@@ -227,11 +265,20 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Getter for slug
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * Setter for slug
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
@@ -240,6 +287,7 @@ class Recipe
     }
 
     /**
+     * Getter for tags
      * @return Collection<int, Tag>
      */
     public function getTags(): Collection
@@ -247,6 +295,11 @@ class Recipe
         return $this->tags;
     }
 
+    /**
+     * Add for tags
+     * @param Tag $tag
+     * @return $this
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -256,6 +309,11 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Remove for tag
+     * @param Tag $tag
+     * @return $this
+     */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
@@ -263,17 +321,31 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Getter for author
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * Setter for author
+     * @param User|null $author
+     * @return $this
+     */
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
 
         return $this;
     }
+
+    /**
+     * Getter for comments
+     * @return Collection
+     */
     public function getComments(): Collection
     {
         $criteria = Criteria::create()
@@ -282,6 +354,11 @@ class Recipe
         return $this->comments->matching($criteria);
     }
 
+    /**
+     * Add for comments
+     * @param Comment $comment
+     * @return $this
+     */
     public function addComment(Comment $comment): static
     {
         if (!$this->comments->contains($comment)) {
@@ -291,6 +368,11 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Remove for comments
+     * @param Comment $comment
+     * @return $this
+     */
     public function removeComment(Comment $comment): static
     {
         $this->comments->removeElement($comment);
@@ -298,11 +380,20 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Getter for averageRating
+     * @return float|null
+     */
     public function getAverageRating(): ?float
     {
         return $this->averageRating;
     }
 
+    /**
+     * Setter for averageRating
+     * @param float $averageRating
+     * @return $this
+     */
     public function setAverageRating(float $averageRating): self
     {
         $this->averageRating = $averageRating;
@@ -311,13 +402,19 @@ class Recipe
     }
 
     /**
-     * @return Collection|Rating[]
+     * Getter for ratings
+     * @return Collection
      */
     public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
+    /**
+     * Add for ratings
+     * @param \App\Entity\Rating $rating
+     * @return $this
+     */
     public function addRating(Rating $rating): self
     {
         if (!$this->ratings->contains($rating)) {
@@ -328,10 +425,14 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Remove for ratings
+     * @param \App\Entity\Rating $rating
+     * @return $this
+     */
     public function removeRating(Rating $rating): self
     {
         if ($this->ratings->removeElement($rating)) {
-            // set the owning side to null (unless already changed)
             if ($rating->getRecipe() === $this) {
                 $rating->setRecipe(null);
             }
@@ -340,27 +441,25 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Operation for averageRating
+     * @return void
+     */
     public function calculateAverageRating(): void
     {
         $sum = 0;
         $count = 0;
-
         if ($this->ratings !== null) {
             foreach ($this->ratings as $rating) {
                 $sum += $rating->getValue();
                 $count++;
             }
         }
-
         if ($count > 0) {
-            // Calculate average rating
             $averageRating = $sum / $count;
-
-            // Update the averageRating property of the Recipe entity
             $this->setAverageRating($averageRating);
         } else {
-            // Handle case where there are no ratings (optional)
-            $this->setAverageRating(0); // or any default value you prefer
+            $this->setAverageRating(0);
         }
     }
 }

@@ -38,31 +38,26 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class RecipeRepository extends ServiceEntityRepository
 {
     /**
-     * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in configuration files.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
-     * @constant int
+     * Paginator items
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * Constructor.
-     *
-     * @param ManagerRegistry $registry Manager registry
+     * Constructor
+     * @param ManagerRegistry $registry
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, recipe::class);
         $this->entityManager = $entityManager;
     }
- /**
- * Query all records.
- *
- * @return QueryBuilder Query builder
- */
+
+    /**
+     * QueryAll
+     * @param RecipeListFiltersDto $filters
+     * @return QueryBuilder
+     */
     public function queryAll(RecipeListFiltersDto $filters): QueryBuilder
     {
         $queryBuilder = $this->getOrCreateQueryBuilder()
@@ -81,8 +76,11 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws NonUniqueResultException
+     * Count by category
+     * @param Category $category
+     * @return int
      * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function countByCategory(Category $category): int
     {
@@ -94,6 +92,14 @@ class RecipeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * Count by tag
+     * @param Tag $tag
+     * @return int
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
     public function countByTag(Tag $tag): int
     {
         $qb = $this->getOrCreateQueryBuilder();
@@ -107,10 +113,9 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Save entity.
-     *
-     * @param Recipe $recipe Recipe entity
-     *
+     * Entity save
+     * @param Recipe $recipe
+     * @return void
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -122,6 +127,7 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     /**
+     * Entity delete
      * @param Recipe $recipe
      * @param bool $cascadeComments
      * @param bool $cascadeRatings
@@ -130,71 +136,75 @@ class RecipeRepository extends ServiceEntityRepository
     public function delete(Recipe $recipe, bool $cascadeComments = true, bool $cascadeRatings = true): void
     {
         $entityManager = $this->getEntityManager();
-
         if ($cascadeComments) {
             foreach ($recipe->getComments() as $comment) {
                 $entityManager->remove($comment);
             }
         }
-
         if ($cascadeRatings) {
             foreach ($recipe->getRatings() as $rating) {
                 $entityManager->remove($rating);
             }
         }
-
         $entityManager->remove($recipe);
         $entityManager->flush();
     }
 
     /**
-     * Get or create new query builder.
-     *
-     * @param QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return QueryBuilder Query builder
+     * Get or create query builder
+     * @param QueryBuilder|null $queryBuilder
+     * @return QueryBuilder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('recipe');
     }
+
     /**
-     * Query recipes by author.
-     *
-     * @param User $user User entity
-     *
-     * @return QueryBuilder Query builder
+     * Query by author
+     * @param UserInterface $user
+     * @param RecipeListFiltersDto $filters
+     * @return QueryBuilder
      */
     public function queryByAuthor(UserInterface $user, RecipeListFiltersDto $filters): QueryBuilder
     {
         $queryBuilder = $this->queryAll($filters);
-
         $queryBuilder->andWhere('recipe.author = :author')
             ->setParameter('author', $user);
 
         return $queryBuilder;
     }
+
+    /**
+     * Apply filters to list
+     * @param QueryBuilder $queryBuilder
+     * @param RecipeListFiltersDto $filters
+     * @return QueryBuilder
+     */
     private function applyFiltersToList(QueryBuilder $queryBuilder, RecipeListFiltersDto $filters): QueryBuilder
     {
         if ($filters->category instanceof Category) {
             $queryBuilder->andWhere('category = :category')
                 ->setParameter('category', $filters->category);
         }
-
         if ($filters->tag instanceof Tag) {
             $queryBuilder->andWhere('tags IN (:tag)')
                 ->setParameter('tag', $filters->tag);
         }
         return $queryBuilder;
     }
+
+    /**
+     * Calculate average rating
+     * @param Recipe $recipe
+     * @return void
+     */
     private function calculateAverageRating(Recipe $recipe): void
     {
         $entityManager = $this->doctrine->getManager();
-
         $sum = 0;
         $ratings = $recipe->getRatings();
         $count = $ratings->count();
-
         if ($count > 0) {
             foreach ($ratings as $rating) {
                 $sum += $rating->getValue();
@@ -203,9 +213,7 @@ class RecipeRepository extends ServiceEntityRepository
         } else {
             $averageRating = null;
         }
-
         $recipe->setAverageRating($averageRating);
-
         $entityManager->persist($recipe);
         $entityManager->flush();
     }

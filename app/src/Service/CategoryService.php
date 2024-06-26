@@ -24,11 +24,6 @@ class CategoryService implements CategoryServiceInterface
 {
     /**
      * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in app/config/config.yml.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
      * @constant int
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
@@ -70,15 +65,11 @@ class CategoryService implements CategoryServiceInterface
      */
     public function save(Category $category): void
     {
-       // if (null == $category->getId()) {
-        //    $category->setCreatedAt(new \DateTimeImmutable());
-       // }
-        //$category->setUpdatedAt(new \DateTimeImmutable());
-
         $this->categoryRepository->save($category);
     }
 
     /**
+     * Delete entity
      * @throws OptimisticLockException
      * @throws ORMException
      */

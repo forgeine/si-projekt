@@ -1,4 +1,8 @@
 <?php
+/**
+ * AdminUserController
+ */
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -14,17 +18,25 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class AdminUserController
+ */
 #[Route('/users')]
 class AdminUserController extends AbstractController
 {
-    private TranslatorInterface $translator;
-    private RecipeRepository $recipeRepository;
-
-    public function __construct(TranslatorInterface $translator, RecipeRepository $recipeRepository)
+    /**
+     * @param TranslatorInterface $translator
+     * @param RecipeRepository $recipeRepository
+     */
+    public function __construct(private TranslatorInterface $translator, private RecipeRepository $recipeRepository)
     {
-        $this->translator = $translator;
-        $this->recipeRepository = $recipeRepository;
     }
+
+    /**
+     * Index for admin tools
+     * @param UserRepository $userRepository
+     * @return Response
+     */
     #[Route(name: 'edit_users')]
     public function index(UserRepository $userRepository): Response
     {
@@ -35,6 +47,13 @@ class AdminUserController extends AbstractController
         ]);
     }
 
+    /**
+     * Admin tool for changing email of users
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/edit/{id}', name: 'edit_user')]
     public function edit(User $user, Request $request, EntityManagerInterface $em): Response
     {
@@ -55,6 +74,7 @@ class AdminUserController extends AbstractController
     }
 
     /**
+     * Admin tool for changing passwords
      * @param User $user
      * @param Request $request
      * @param UserPasswordHasherInterface $passwordHasher
@@ -66,7 +86,6 @@ class AdminUserController extends AbstractController
     {
         $form = $this->createForm(AdminPasswordType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $user->setPassword($passwordHasher->hashPassword($user, $data['newPasswordAdmin']));
@@ -81,25 +100,27 @@ class AdminUserController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    /**
+     * Admin tool for deleting users and their content
+     * @param User $user
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/delete/{id}', name: 'delete_user', methods: ['POST'])]
     public function delete(User $user, EntityManagerInterface $em): Response
     {
         $currentUser = $this->getUser();
-
         if ($currentUser->getId() === $user->getId()) {
             $this->addFlash('danger', $this->translator->trans('message.cannot_delete_yourself'));
             return $this->redirectToRoute('edit_users');
         }
-
         $recipes = $this->recipeRepository->findBy(['author' => $user]);
-
         foreach ($recipes as $recipe) {
             $em->remove($recipe);
         }
-
         $em->remove($user);
         $em->flush();
-
         $this->addFlash('success', $this->translator->trans('message.user_deleted_successfully'));
 
         return $this->redirectToRoute('edit_users');

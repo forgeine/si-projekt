@@ -15,6 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Config\Doctrine\Orm\EntityManagerConfig;
 /**
+ * Class TagRepository
  * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
  * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
  * @method Tag[]    findAll()
@@ -47,7 +48,7 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
+     * Get or create query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
      *

@@ -1,4 +1,7 @@
 <?php
+/**
+ * AdminEditType
+ */
 namespace App\Form\Type;
 
 use App\Entity\User;
@@ -9,8 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AdminEditType
+ */
 class AdminEditType extends AbstractType
 {
+    /**
+     * Build the form
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -18,6 +30,11 @@ class AdminEditType extends AbstractType
             ->add('save', SubmitType::class, ['label' => 'action.edit']);
     }
 
+    /**
+     * Configures the options
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

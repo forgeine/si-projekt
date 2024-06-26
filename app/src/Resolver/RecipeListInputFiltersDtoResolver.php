@@ -27,11 +27,9 @@ class RecipeListInputFiltersDtoResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $argumentType = $argument->getType();
-
         if (!$argumentType || !is_a($argumentType, recipeListInputFiltersDto::class, true)) {
             return [];
         }
-
         $categoryId = $request->query->get('categoryId');
         $tagId = $request->query->get('tagId');
         $statusId = $request->query->get('statusId', RecipeStatus::ACTIVE->value);

@@ -30,9 +30,9 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
     public function loadData(): void
     {
         if (!$this->manager instanceof ObjectManager || !$this->faker instanceof Generator) {
+
             return;
         }
-
         $this->createMany(100, 'recipes', function (int $i) {
             $recipe = new Recipe();
             $recipe->setTitle($this->faker->city);
@@ -47,10 +47,8 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
-            /** @var Category $category */
             $category = $this->getRandomReference('categories');
             $recipe->setCategory($category);
-            /** @var array<array-key, Tag> $tags */
             $tags = $this->getRandomReferences(
                 'tags',
                 $this->faker->numberBetween(0, 5)
@@ -58,14 +56,10 @@ class RecipeFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             foreach ($tags as $tag) {
                 $recipe->addTag($tag);
             }
-            //$recipe->setStatus(RecipeStatus::from($this->faker->numberBetween(1, 2)));
-
-            /** @var User $author */
             $author = $this->getRandomReference('users');
             $recipe->setAuthor($author);
             return $recipe;
         });
-
         $this->manager->flush();
     }
 

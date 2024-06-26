@@ -1,4 +1,7 @@
 <?php
+/**
+ * RatingRepository
+ */
 
 namespace App\Repository;
 
@@ -7,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Class RatingRepository
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
  * @method Rating|null findOneBy(array $criteria, array $orderBy = null)
  * @method Rating[]    findAll()
@@ -14,14 +18,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RatingRepository extends ServiceEntityRepository
 {
+    /**
+     * Construct
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Rating::class);
     }
+
+    /**
+     * Save entity
+     * @param Rating $rating
+     * @return void
+     */
     public function save(Rating $rating): void
     {
         $this->_em->persist($rating);
         $this->_em->flush();
     }
-    // Optional: Add custom query methods here
 }

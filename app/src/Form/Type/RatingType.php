@@ -1,4 +1,7 @@
 <?php
+/**
+ * RatingType
+ */
 namespace App\Form\Type;
 
 use App\Entity\Rating;
@@ -8,8 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class RatingType
+ */
 class RatingType extends AbstractType
 {
+    /**
+     * Builds form
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -27,6 +39,11 @@ class RatingType extends AbstractType
             ->add('save', SubmitType::class, ['label' => 'action.rating_add']);
     }
 
+    /**
+     * Configures options
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

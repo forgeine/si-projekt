@@ -38,7 +38,6 @@ class CategoryFixtures extends AbstractBaseFixtures
 
             return $category;
         });
-
         $this->manager->flush();
     }
 }

@@ -16,7 +16,9 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\RatingRepository;
 use App\Repository\RecipeRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -27,11 +29,6 @@ class RecipeService implements RecipeServiceInterface
 {
     /**
      * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in app/config/config.yml.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
      * @constant int
      */
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
@@ -47,12 +44,12 @@ class RecipeService implements RecipeServiceInterface
     }
 
     /**
-     * Get paginated list.
-     *
-     * @param int  $page   Page number
-     * @param User $author Author
-     *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * Get paginated list
+     * @param int $page
+     * @param User|null $author
+     * @param RecipeListInputFiltersDto $filters
+     * @return PaginationInterface
+     * @throws NonUniqueResultException
      */
     public function getPaginatedList(int $page, ?User $author, RecipeListInputFiltersDto $filters): PaginationInterface
     {
@@ -71,10 +68,13 @@ class RecipeService implements RecipeServiceInterface
             );
         }
     }
+
     /**
-     * Save entity.
-     *
-     * @param Recipe $recipe Recipe entity
+     * Save entity
+     * @param Recipe $recipe
+     * @return void
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function save(Recipe $recipe): void
     {
@@ -82,20 +82,19 @@ class RecipeService implements RecipeServiceInterface
     }
 
     /**
-     * Delete entity.
-     *
-     * @param Recipe $recipe recipe entity
+     * Delete entity
+     * @param Recipe $recipe
+     * @return void
      */
     public function delete(Recipe $recipe): void
     {
         $this->recipeRepository->delete($recipe);
     }
+
     /**
-     * Find by title.
-     *
-     * @param string $title Tag title
-     *
-     * @return Tag|null Tag entity
+     * Find by title
+     * @param string $title
+     * @return Tag|null
      */
     public function findOneByTitle(string $title): ?Tag
     {
@@ -103,11 +102,9 @@ class RecipeService implements RecipeServiceInterface
     }
 
     /**
-     * Prepare filters for the recipe list.
-     *
-     * @param RecipeListInputFiltersDto $filters Raw filters from request
-     *
-     * @return RecipeListFiltersDto Result filters
+     * Prepare filters for list
+     * @param RecipeListInputFiltersDto $filters
+     * @return RecipeListFiltersDto
      * @throws NonUniqueResultException
      */
     private function prepareFilters(RecipeListInputFiltersDto $filters): RecipeListFiltersDto
@@ -118,14 +115,32 @@ class RecipeService implements RecipeServiceInterface
             RecipeStatus::tryFrom($filters->statusId)
         );
     }
+
+    /**
+     * Save comment
+     * @param Comment $comment
+     * @return void
+     */
     public function saveComment(Comment $comment): void
     {
         $this->commentRepository->save($comment);
     }
+
+    /**
+     * Delete comment
+     * @param Comment $comment
+     * @return void
+     */
     public function deleteComment(Comment $comment): void
     {
         $this->commentRepository->delete($comment);
     }
+
+    /**
+     * Save rating
+     * @param Rating $rating
+     * @return void
+     */
     public function saveRating(Rating $rating): void
     {
         $this->ratingRepository->save($rating);
