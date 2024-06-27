@@ -5,15 +5,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\Type\UserEditType;
 use App\Form\Type\UserPasswordType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UserProfileServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,11 +23,10 @@ class UserProfileController extends AbstractController
     /**
      * Constructor
      *
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param Security                    $security
+     * @param UserProfileServiceInterface $userProfileService
      * @param TranslatorInterface         $translator
      */
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly Security $security, private readonly TranslatorInterface $translator)
+    public function __construct(private UserProfileServiceInterface $userProfileService, private TranslatorInterface $translator)
     {
     }
 
@@ -50,19 +46,19 @@ class UserProfileController extends AbstractController
     /**
      * Changing own email, action edit.
      *
-     * @param Request                $request
-     * @param EntityManagerInterface $em
+     * @param Request $request
      *
      * @return Response
      */
     #[Route('/edit', name: 'profile_edit')]
-    public function edit(Request $request, EntityManagerInterface $em): Response
+    public function edit(Request $request): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->userProfileService->updateUser($user);
             $this->addFlash('success', $this->translator->trans('message.user_updated_successfully'));
 
             return $this->redirectToRoute('profile_edit');
@@ -76,14 +72,12 @@ class UserProfileController extends AbstractController
     /**
      * Changing your own password, action changePassword.
      *
-     * @param Request                     $request
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface      $em
+     * @param Request $request
      *
      * @return Response
      */
     #[Route('/change-password', name: 'profile_password')]
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
+    public function changePassword(Request $request): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserPasswordType::class);
@@ -91,9 +85,7 @@ class UserProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            if ($this->passwordHasher->isPasswordValid($user, $data['currentPassword']) && $data['newPassword'] === $data['confirmNewPassword']) {
-                $user->setPassword($passwordHasher->hashPassword($user, $data['newPassword']));
-                $em->flush();
+            if ($this->userProfileService->validateAndChangePassword($user, $data['currentPassword'], $data['newPassword'], $data['confirmNewPassword'])) {
                 $this->addFlash('success', $this->translator->trans('message.password_updated_successfully'));
 
                 return $this->redirectToRoute('profile_password');

@@ -6,7 +6,6 @@
 namespace App\Service;
 
 use App\Entity\Category;
-// use App\Form\Type\CategoryType;
 use App\Repository\CategoryRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\Exception\ORMException;
@@ -68,11 +67,9 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
-     * Delete entity
+     * Delete entity.
      *
-     * @param Category $category
-     *
-     * @return void
+     * @param Category $category Category entity
      *
      * @throws ORMException
      * @throws OptimisticLockException
