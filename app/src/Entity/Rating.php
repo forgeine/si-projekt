@@ -47,7 +47,7 @@ class Rating
     /**
      * Getter for id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -57,7 +57,7 @@ class Rating
     /**
      * Getter for value.
      *
-     * @return int|null
+     * @return int|null Value
      */
     public function getValue(): ?int
     {
@@ -67,9 +67,9 @@ class Rating
     /**
      * Setter for value.
      *
-     * @param int $value
+     * @param int $value Value
      *
-     * @return $this
+     * @return $this Value
      */
     public function setValue(int $value): self
     {
@@ -81,7 +81,7 @@ class Rating
     /**
      * Getter for recipe.
      *
-     * @return Recipe|null
+     * @return Recipe|null Recipe
      */
     public function getRecipe(): ?Recipe
     {
@@ -91,9 +91,9 @@ class Rating
     /**
      * Setter for recipe.
      *
-     * @param Recipe|null $recipe
+     * @param Recipe|null $recipe Recipe
      *
-     * @return $this
+     * @return $this Recipe
      */
     public function setRecipe(?Recipe $recipe): self
     {
@@ -105,7 +105,7 @@ class Rating
     /**
      * Getter for user.
      *
-     * @return User|null
+     * @return User|null User
      */
     public function getUser(): ?User
     {
@@ -115,9 +115,9 @@ class Rating
     /**
      * Setter for user.
      *
-     * @param User|null $user
+     * @param User|null $user User
      *
-     * @return $this
+     * @return $this User
      */
     public function setUser(?User $user): self
     {

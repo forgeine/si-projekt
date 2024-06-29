@@ -21,7 +21,7 @@ class Comment
     /**
      * Primary key id.
      *
-     * @var int|null
+     * @var int|null Id
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,7 +31,7 @@ class Comment
     /**
      * createdAt.
      *
-     * @var \DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Created at
      */
     #[ORM\Column]
     #[Gedmo\Timestampable(on: 'create')]
@@ -41,7 +41,7 @@ class Comment
     /**
      * content.
      *
-     * @var string|null
+     * @var string|null Content
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -51,7 +51,7 @@ class Comment
     /**
      * Recipe relation.
      *
-     * @var Recipe|null
+     * @var Recipe|null Recipe
      */
     #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'comments')]
     private ?Recipe $recipe = null;
@@ -59,7 +59,7 @@ class Comment
     /**
      * Author relation.
      *
-     * @var User|null
+     * @var User|null Author
      */
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $author = null;
@@ -67,7 +67,7 @@ class Comment
     /**
      * Getter for id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -77,7 +77,7 @@ class Comment
     /**
      * Getter for content.
      *
-     * @return string|null
+     * @return string|null Content
      */
     public function getContent(): ?string
     {
@@ -87,9 +87,9 @@ class Comment
     /**
      * Setter for content.
      *
-     * @param string $content
+     * @param string $content Content
      *
-     * @return $this
+     * @return $this Content
      */
     public function setContent(string $content): static
     {
@@ -101,7 +101,7 @@ class Comment
     /**
      * Getter for recipe.
      *
-     * @return Recipe|null
+     * @return Recipe|null Recipe
      */
     public function getRecipe(): ?Recipe
     {
@@ -111,9 +111,9 @@ class Comment
     /**
      * Setter for recipe.
      *
-     * @param Recipe|null $recipe
+     * @param Recipe|null $recipe Recipe
      *
-     * @return $this
+     * @return $this Recipe
      */
     public function setRecipe(?Recipe $recipe): static
     {
@@ -125,7 +125,7 @@ class Comment
     /**
      * Getter for author.
      *
-     * @return User|null
+     * @return User|null Author
      */
     public function getAuthor(): ?User
     {
@@ -135,9 +135,9 @@ class Comment
     /**
      * Setter for author.
      *
-     * @param User|null $author
+     * @param User|null $author Author
      *
-     * @return $this
+     * @return $this Author
      */
     public function setAuthor(?User $author): static
     {
@@ -149,7 +149,7 @@ class Comment
     /**
      * Getter for createdAt.
      *
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable|null created At
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -159,9 +159,9 @@ class Comment
     /**
      * Setter for createdAt.
      *
-     * @param \DateTimeImmutable $createdAt
+     * @param \DateTimeImmutable $createdAt createdAt
      *
-     * @return $this
+     * @return $this createdAt
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {

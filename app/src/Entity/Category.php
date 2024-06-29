@@ -85,9 +85,9 @@ class Category
     /**
      * Setter for updated at.
      *
-     * @param \DateTimeImmutable $createdAt
+     * @param \DateTimeImmutable $createdAt Created at
      *
-     * @return $this
+     * @return $this Set created at
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
@@ -129,9 +129,9 @@ class Category
     /**
      * Setter for title.
      *
-     * @param string|null $title
+     * @param string|null $title Title
      *
-     * @return void
+     * @return void Void
      */
     public function setTitle(?string $title): void
     {
@@ -141,7 +141,7 @@ class Category
     /**
      * Getter for slug.
      *
-     * @return string|null
+     * @return string|null Slug
      */
     public function getSlug(): ?string
     {
@@ -151,9 +151,9 @@ class Category
     /**
      * Setter for slug.
      *
-     * @param string $slug
+     * @param string $slug Slug
      *
-     * @return $this
+     * @return $this Slug
      */
     public function setSlug(string $slug): static
     {

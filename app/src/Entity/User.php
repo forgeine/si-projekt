@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Roles.
      *
-     * @var array<int, string>
+     * @var array<int, string> roles
      */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Ratings.
      *
-     * @var Collection<int, Rating>
+     * @var Collection<int, Rating> Ratings
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class)]
     private Collection $ratings;
@@ -139,7 +139,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @param array<int, string> $roles Roles
      *
-     * @return $this
+     * @return $this Roles
      */
     public function setRoles(array $roles): self
     {
@@ -182,7 +182,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Getter for ratings.
      *
-     * @return Collection
+     * @return Collection ratings
      */
     public function getRatings(): Collection
     {
@@ -192,9 +192,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Add for ratings.
      *
-     * @param Rating $rating
+     * @param Rating $rating ratings
      *
-     * @return $this
+     * @return $this ratings
      */
     public function addRating(Rating $rating): self
     {
@@ -209,9 +209,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Remove for ratings.
      *
-     * @param Rating $rating
+     * @param Rating $rating ratings
      *
-     * @return $this
+     * @return $this ratings
      */
     public function removeRating(Rating $rating): self
     {

@@ -36,10 +36,10 @@ class CategoryController extends AbstractController
     /**
      * Editing categories, action edit.
      *
-     * @param Request  $request
-     * @param Category $category
+     * @param Request  $request Request
+     * @param Category $category Entity category
      *
-     * @return Response
+     * @return Response Edit category
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Category $category): Response
@@ -79,9 +79,9 @@ class CategoryController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page
+     * @param int $page Page
      *
-     * @return Response
+     * @return Response Index
      */
     #[Route(name: 'category_index', methods: 'GET')]
     public function index(#[MapQueryParameter] int $page = 1): Response
@@ -94,9 +94,9 @@ class CategoryController extends AbstractController
     /**
      * Details of category, action show.
      *
-     * @param Category $category
+     * @param Category $category Entity category
      *
-     * @return Response
+     * @return Response Details, show
      */
     #[Route(
         '/{id}',
@@ -114,9 +114,9 @@ class CategoryController extends AbstractController
     /**
      * Creating categories, action create.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Create
      */
     #[Route(
         '/create',
@@ -151,10 +151,10 @@ class CategoryController extends AbstractController
     /**
      * Deleting category, action delete.
      *
-     * @param Request  $request
-     * @param Category $category
+     * @param Request  $request Request
+     * @param Category $category Entity category
      *
-     * @return Response
+     * @return Response Delete
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Category $category): Response

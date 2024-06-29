@@ -37,12 +37,12 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Constructor
      *
-     * @param CategoryServiceInterface $categoryService
-     * @param PaginatorInterface       $paginator
-     * @param TagServiceInterface      $tagService
-     * @param CommentRepository        $commentRepository
-     * @param RecipeRepository         $recipeRepository
-     * @param RatingRepository         $ratingRepository
+     * @param CategoryServiceInterface $categoryService Category Service
+     * @param PaginatorInterface       $paginator Paginator
+     * @param TagServiceInterface      $tagService Tag Service
+     * @param CommentRepository        $commentRepository Comment Repository
+     * @param RecipeRepository         $recipeRepository Recipe Repository
+     * @param RatingRepository         $ratingRepository Rating Repository
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly CommentRepository $commentRepository, private readonly RecipeRepository $recipeRepository, private readonly RatingRepository $ratingRepository)
     {
@@ -51,11 +51,11 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int                       $page
-     * @param User|null                 $author
-     * @param RecipeListInputFiltersDto $filters
+     * @param int                       $page Page
+     * @param User|null                 $author Author
+     * @param RecipeListInputFiltersDto $filters Filters
      *
-     * @return PaginationInterface
+     * @return PaginationInterface Pagination
      *
      * @throws NonUniqueResultException
      */
@@ -80,9 +80,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Save entity.
      *
-     * @param Recipe $recipe
+     * @param Recipe $recipe Entity Recipe
      *
-     * @return void
+     * @return void Void
      *
      * @throws ORMException
      * @throws OptimisticLockException
@@ -95,9 +95,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Delete entity.
      *
-     * @param Recipe $recipe
+     * @param Recipe $recipe Entity Recipe
      *
-     * @return void
+     * @return void Void
      */
     public function delete(Recipe $recipe): void
     {
@@ -107,9 +107,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Find by title.
      *
-     * @param string $title
+     * @param string $title Title
      *
-     * @return Tag|null
+     * @return Tag|null Tag
      */
     public function findOneByTitle(string $title): ?Tag
     {
@@ -119,9 +119,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Save comment.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity Comment
      *
-     * @return void
+     * @return void Void
      */
     public function saveComment(Comment $comment): void
     {
@@ -131,9 +131,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Delete comment.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity Comment
      *
-     * @return void
+     * @return void Void
      */
     public function deleteComment(Comment $comment): void
     {
@@ -143,9 +143,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Save rating.
      *
-     * @param Rating $rating
+     * @param Rating $rating Entity Rating
      *
-     * @return void
+     * @return void Void
      */
     public function saveRating(Rating $rating): void
     {
@@ -155,9 +155,9 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Prepare filters for list.
      *
-     * @param RecipeListInputFiltersDto $filters
+     * @param RecipeListInputFiltersDto $filters Filters
      *
-     * @return RecipeListFiltersDto
+     * @return RecipeListFiltersDto Recipe List Filters Dto
      *
      * @throws NonUniqueResultException
      */

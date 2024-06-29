@@ -25,25 +25,25 @@ interface CategoryServiceInterface
     /**
      * Save entity
      *
-     * @param Category $category
+     * @param Category $category Entity Category
      *
-     * @return void
+     * @return void Void
      */
     public function save(Category $category): void;
 
     /**
      * Delete entity
      *
-     * @param Category $category
+     * @param Category $category Entity Category
      *
-     * @return void
+     * @return void Void
      */
     public function delete(Category $category): void;
 
     /**
      * Can Category be deleted?
      *
-     * @param Category $category Category entity
+     * @param Category $category Entity Category
      *
      * @return bool Result
      */

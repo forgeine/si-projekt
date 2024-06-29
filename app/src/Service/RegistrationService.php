@@ -19,9 +19,9 @@ class RegistrationService implements RegistrationServiceInterface
     /**
      * Constructor
      *
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param TranslatorInterface         $translator
-     * @param EntityManagerInterface      $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
+     * @param TranslatorInterface         $translator Translator
+     * @param EntityManagerInterface      $entityManager Entity Manager
      */
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager)
     {
@@ -30,9 +30,9 @@ class RegistrationService implements RegistrationServiceInterface
     /**
      * Register user.
      *
-     * @param User $user
+     * @param User $user Entity user
      *
-     * @return void
+     * @return void Void
      */
     public function registerUser(User $user): void
     {
@@ -51,7 +51,7 @@ class RegistrationService implements RegistrationServiceInterface
     /**
      * Get success message
      *
-     * @return string
+     * @return string Success
      */
     public function getSuccessMessage(): string
     {

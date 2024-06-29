@@ -19,10 +19,10 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * Constructor
      *
-     * @param UserRepository              $userRepository
-     * @param RecipeRepository            $recipeRepository
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface      $em
+     * @param UserRepository              $userRepository User Repository
+     * @param RecipeRepository            $recipeRepository Recipe Repository
+     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
+     * @param EntityManagerInterface      $em Entity Manager
      */
     public function __construct(private readonly UserRepository $userRepository, private readonly RecipeRepository $recipeRepository, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em)
     {
@@ -31,7 +31,7 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * getAllUsers.
      *
-     * @return array
+     * @return array All users
      */
     public function getAllUsers(): array
     {
@@ -41,9 +41,9 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * updateUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function updateUser(User $user): void
     {
@@ -53,10 +53,10 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * changePassword.
      *
-     * @param User   $user
-     * @param string $newPassword
+     * @param User   $user Entity User
+     * @param string $newPassword New password
      *
-     * @return void
+     * @return void Void
      */
     public function changePassword(User $user, string $newPassword): void
     {
@@ -67,9 +67,9 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * deleteUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function deleteUser(User $user): void
     {

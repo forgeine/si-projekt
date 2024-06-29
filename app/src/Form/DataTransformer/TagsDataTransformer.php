@@ -14,14 +14,14 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Class TagsDataTransformer.
  *
- * @implements DataTransformerInterface<mixed, mixed>
+ * @implements DataTransformerInterface<mixed, mixed> Data Transformer Interface
  */
 class TagsDataTransformer implements DataTransformerInterface
 {
     /**
      * Constructor.
      *
-     * @param TagRepository $tagRepository
+     * @param TagRepository $tagRepository Tag Repository
      */
     public function __construct(private readonly TagRepository $tagRepository)
     {

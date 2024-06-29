@@ -22,7 +22,7 @@ class RecipeType extends AbstractType
     /**
      * Constructor
      *
-     * @param TagsDataTransformer $tagsDataTransformer
+     * @param TagsDataTransformer $tagsDataTransformer Tags Data Transformer
      */
     public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
     {
@@ -85,7 +85,7 @@ class RecipeType extends AbstractType
     /**
      * Configures options.
      *
-     * @param OptionsResolver $resolver The resolver for the options
+     * @param OptionsResolver $resolver Options Resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -95,7 +95,7 @@ class RecipeType extends AbstractType
     /**
      * GetBlockPrefix.
      *
-     * @return string
+     * @return string recipe
      */
     public function getBlockPrefix(): string
     {

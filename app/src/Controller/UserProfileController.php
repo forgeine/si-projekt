@@ -23,8 +23,8 @@ class UserProfileController extends AbstractController
     /**
      * Constructor
      *
-     * @param UserProfileServiceInterface $userProfileService
-     * @param TranslatorInterface         $translator
+     * @param UserProfileServiceInterface $userProfileService User Profile Service Interface
+     * @param TranslatorInterface         $translator Translator
      */
     public function __construct(private UserProfileServiceInterface $userProfileService, private TranslatorInterface $translator)
     {
@@ -33,9 +33,9 @@ class UserProfileController extends AbstractController
     /**
      * User edit index.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Index
      */
     #[Route(name: 'profile_index')]
     public function index(Request $request): Response
@@ -46,9 +46,9 @@ class UserProfileController extends AbstractController
     /**
      * Changing own email, action edit.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Edit
      */
     #[Route('/edit', name: 'profile_edit')]
     public function edit(Request $request): Response
@@ -72,9 +72,9 @@ class UserProfileController extends AbstractController
     /**
      * Changing your own password, action changePassword.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Change password
      */
     #[Route('/change-password', name: 'profile_password')]
     public function changePassword(Request $request): Response

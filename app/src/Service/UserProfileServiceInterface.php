@@ -15,21 +15,21 @@ interface UserProfileServiceInterface
     /**
      * updateUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function updateUser(User $user): void;
 
     /**
      * validateAndChangePassword.
      *
-     * @param User   $user
-     * @param string $currentPassword
-     * @param string $newPassword
-     * @param string $confirmNewPassword
+     * @param User   $user Entity User
+     * @param string $currentPassword Current Password
+     * @param string $newPassword New Password
+     * @param string $confirmNewPassword Confirm New
      *
-     * @return bool
+     * @return bool Result
      */
     public function validateAndChangePassword(User $user, string $currentPassword, string $newPassword, string $confirmNewPassword): bool;
 }

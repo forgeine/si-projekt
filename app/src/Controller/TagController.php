@@ -25,8 +25,8 @@ class TagController extends AbstractController
     /**
      * Constructor
      *
-     * @param TagServiceInterface $tagService
-     * @param TranslatorInterface $translator
+     * @param TagServiceInterface $tagService Tag Service Interface
+     * @param TranslatorInterface $translator Translator
      */
     public function __construct(private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator)
     {
@@ -35,10 +35,10 @@ class TagController extends AbstractController
     /**
      * Editing a tag, action edit.
      *
-     * @param Request $request
-     * @param Tag     $tag
+     * @param Request $request Request
+     * @param Tag     $tag Entity Tag
      *
-     * @return Response
+     * @return Response Edit
      */
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Tag $tag): Response
@@ -78,9 +78,9 @@ class TagController extends AbstractController
     /**
      * Action index.
      *
-     * @param int $page
+     * @param int $page Page
      *
-     * @return Response
+     * @return Response Index
      */
     #[Route(name: 'tag_index', methods: 'GET')]
     public function index(#[MapQueryParameter] int $page = 1): Response
@@ -93,9 +93,9 @@ class TagController extends AbstractController
     /**
      * Details of a tag, action show.
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity tag
      *
-     * @return Response
+     * @return Response Show, details
      */
     #[Route(
         '/{id}',
@@ -111,9 +111,9 @@ class TagController extends AbstractController
     /**
      * Creating new tag, action create.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Create
      */
     #[Route(
         '/create',
@@ -149,10 +149,10 @@ class TagController extends AbstractController
     /**
      * Deleting a tag, action delete.
      *
-     * @param Request $request
-     * @param Tag     $tag
+     * @param Request $request Request
+     * @param Tag     $tag Entity tag
      *
-     * @return Response
+     * @return Response Delete
      */
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: ['GET|DELETE'])]
     public function delete(Request $request, Tag $tag): Response

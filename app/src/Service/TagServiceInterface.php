@@ -25,25 +25,25 @@ interface TagServiceInterface
     /**
      * Save entity.
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity Tag
      *
-     * @return void
+     * @return void Void
      */
     public function save(Tag $tag): void;
 
     /**
      * Delete entity.
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity Tag
      *
-     * @return void
+     * @return void Void
      */
     public function delete(Tag $tag): void;
 
     /**
      * Can Category be deleted?
      *
-     * @param Tag $tag Tag entity
+     * @param Tag $tag Entity Tag
      *
      * @return bool Result
      */

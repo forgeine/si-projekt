@@ -15,14 +15,14 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * Class UserRepository.
  *
- * @extends ServiceEntityRepository<User>
+ * @extends ServiceEntityRepository<User> User
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     /**
      * Constructor.
      *
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry Manager Registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -32,10 +32,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Upgrade password.
      *
-     * @param PasswordAuthenticatedUserInterface $user
-     * @param string                             $newHashedPassword
+     * @param PasswordAuthenticatedUserInterface $user User
+     * @param string                             $newHashedPassword New password
      *
-     * @return void
+     * @return void Void
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

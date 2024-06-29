@@ -22,7 +22,7 @@ class RatingRepository extends ServiceEntityRepository
     /**
      * Construct.
      *
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry Manager Registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -32,9 +32,9 @@ class RatingRepository extends ServiceEntityRepository
     /**
      * Save entity.
      *
-     * @param Rating $rating
+     * @param Rating $rating Entity Rating
      *
-     * @return void
+     * @return void Void
      */
     public function save(Rating $rating): void
     {

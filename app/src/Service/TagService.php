@@ -70,9 +70,9 @@ class TagService implements TagServiceInterface
     /**
      * Delete entity.
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity Tag
      *
-     * @return void
+     * @return void Void
      *
      * @throws ORMException
      * @throws OptimisticLockException
@@ -85,9 +85,9 @@ class TagService implements TagServiceInterface
     /**
      * Can tag be deleted?
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity Tag
      *
-     * @return bool
+     * @return bool Result
      */
     public function canBeDeleted(Tag $tag): bool
     {

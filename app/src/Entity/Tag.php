@@ -56,7 +56,7 @@ class Tag
     /**
      * Getter for Id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -66,7 +66,7 @@ class Tag
     /**
      * Getter for createdAt.
      *
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable|null createdAt
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -76,9 +76,9 @@ class Tag
     /**
      * Setter for createdAt.
      *
-     * @param \DateTimeImmutable $createdAt
+     * @param \DateTimeImmutable $createdAt createdAt
      *
-     * @return $this
+     * @return $this createdAt
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
@@ -90,7 +90,7 @@ class Tag
     /**
      * Getter for updatedAt.
      *
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable|null updatedAt
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -100,9 +100,9 @@ class Tag
     /**
      * Setter for updatedAt.
      *
-     * @param \DateTimeImmutable $updatedAt
+     * @param \DateTimeImmutable $updatedAt updatedAt
      *
-     * @return $this
+     * @return $this updatedAt
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
@@ -114,7 +114,7 @@ class Tag
     /**
      * Getter for slug.
      *
-     * @return string|null
+     * @return string|null slug
      */
     public function getSlug(): ?string
     {
@@ -124,9 +124,9 @@ class Tag
     /**
      * Setter for slug.
      *
-     * @param string $slug
+     * @param string $slug slug
      *
-     * @return $this
+     * @return $this slug
      */
     public function setSlug(string $slug): static
     {
@@ -138,7 +138,7 @@ class Tag
     /**
      * Getter for title.
      *
-     * @return string|null
+     * @return string|null title
      */
     public function getTitle(): ?string
     {
@@ -148,9 +148,9 @@ class Tag
     /**
      * Setter for title.
      *
-     * @param string $title
+     * @param string $title title
      *
-     * @return $this
+     * @return $this title
      */
     public function setTitle(string $title): static
     {

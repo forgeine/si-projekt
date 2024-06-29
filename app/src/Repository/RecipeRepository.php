@@ -42,8 +42,8 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Constructor.
      *
-     * @param ManagerRegistry        $registry
-     * @param EntityManagerInterface $entityManager
+     * @param ManagerRegistry        $registry      ManagerRegistry
+     * @param EntityManagerInterface $entityManager EntityManagerInterface
      */
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
@@ -54,9 +54,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * QueryAll.
      *
-     * @param RecipeListFiltersDto $filters
+     * @param RecipeListFiltersDto $filters RecipeListFiltersDto
      *
-     * @return QueryBuilder
+     * @return QueryBuilder Aply filters
      */
     public function queryAll(RecipeListFiltersDto $filters): QueryBuilder
     {
@@ -78,9 +78,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Count by category.
      *
-     * @param Category $category
+     * @param Category $category Entity
      *
-     * @return int
+     * @return int Count by category
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -99,9 +99,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Count by tag.
      *
-     * @param Tag $tag
+     * @param Tag $tag Entity
      *
-     * @return int
+     * @return int Count by tag
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -121,9 +121,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Entity save.
      *
-     * @param Recipe $recipe
+     * @param Recipe $recipe Entity
      *
-     * @return void
+     * @return void Void
      *
      * @throws ORMException
      * @throws OptimisticLockException
@@ -138,11 +138,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Entity delete.
      *
-     * @param Recipe $recipe
-     * @param bool   $cascadeComments
-     * @param bool   $cascadeRatings
-     *
-     * @return void
+     * @param Recipe $recipe          Entity
+     * @param bool   $cascadeComments Comments
+     * @param bool   $cascadeRatings  Ratings
      */
     public function delete(Recipe $recipe, bool $cascadeComments = true, bool $cascadeRatings = true): void
     {
@@ -164,10 +162,10 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Query by author.
      *
-     * @param UserInterface        $user
-     * @param RecipeListFiltersDto $filters
+     * @param UserInterface        $user    User
+     * @param RecipeListFiltersDto $filters Filters
      *
-     * @return QueryBuilder
+     * @return QueryBuilder QueryBuilder
      */
     public function queryByAuthor(UserInterface $user, RecipeListFiltersDto $filters): QueryBuilder
     {
@@ -181,9 +179,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Get or create query builder.
      *
-     * @param QueryBuilder|null $queryBuilder
+     * @param QueryBuilder|null $queryBuilder Query builder
      *
-     * @return QueryBuilder
+     * @return QueryBuilder Query builder for recipe
      */
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -193,10 +191,10 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Apply filters to list.
      *
-     * @param QueryBuilder         $queryBuilder
-     * @param RecipeListFiltersDto $filters
+     * @param QueryBuilder         $queryBuilder QueryBuilder
+     * @param RecipeListFiltersDto $filters      Filters
      *
-     * @return QueryBuilder
+     * @return QueryBuilder Applying filters
      */
     private function applyFiltersToList(QueryBuilder $queryBuilder, RecipeListFiltersDto $filters): QueryBuilder
     {
@@ -215,9 +213,9 @@ class RecipeRepository extends ServiceEntityRepository
     /**
      * Calculate average rating.
      *
-     * @param Recipe $recipe
+     * @param Recipe $recipe Entity
      *
-     * @return void
+     * @return void Void
      */
     private function calculateAverageRating(Recipe $recipe): void
     {

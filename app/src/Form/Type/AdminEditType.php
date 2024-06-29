@@ -20,10 +20,10 @@ class AdminEditType extends AbstractType
     /**
      * Build the form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder Form Builder Interface
+     * @param array                $options options
      *
-     * @return void
+     * @return void void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,9 +35,9 @@ class AdminEditType extends AbstractType
     /**
      * Configures the options.
      *
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver Options Resolver
      *
-     * @return void
+     * @return void void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

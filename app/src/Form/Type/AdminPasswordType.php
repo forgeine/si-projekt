@@ -19,10 +19,10 @@ class AdminPasswordType extends AbstractType
     /**
      * Builds form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder Form Builder Interface
+     * @param array                $options options
      *
-     * @return void
+     * @return void void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -41,9 +41,9 @@ class AdminPasswordType extends AbstractType
     /**
      * Configures options.
      *
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver Options Resolver
      *
-     * @return void
+     * @return void void
      */
     public function configureOptions(OptionsResolver $resolver)
     {

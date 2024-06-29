@@ -27,7 +27,7 @@ class Recipe
     /**
      * Primary key.
      *
-     * @var int|null
+     * @var int|null Id
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,7 +37,7 @@ class Recipe
     /**
      * Title.
      *
-     * @var string|null
+     * @var string|null Title
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
@@ -48,7 +48,7 @@ class Recipe
     /**
      * Created at.
      *
-     * @var \DateTimeImmutable|null
+     * @var \DateTimeImmutable|null created At
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(\DateTimeImmutable::class)]
@@ -58,7 +58,7 @@ class Recipe
     /**
      * Updated at.
      *
-     * @var \DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Updated At
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\Type(\DateTimeImmutable::class)]
@@ -68,7 +68,7 @@ class Recipe
     /**
      * Content.
      *
-     * @var string|null
+     * @var string|null Content
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -78,7 +78,7 @@ class Recipe
     /**
      * Category.
      *
-     * @var Category|null
+     * @var Category|null Category
      */
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[Assert\Type(Category::class)]
@@ -89,7 +89,7 @@ class Recipe
     /**
      * Slug.
      *
-     * @var string|null
+     * @var string|null Slug
      */
     #[ORM\Column(length: 255)]
     #[Gedmo\Slug(fields: ['title'])]
@@ -98,7 +98,7 @@ class Recipe
     /**
      * Tags.
      *
-     * @var Collection<int, Tag>
+     * @var Collection<int, Tag> Tags
      */
     #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
@@ -108,7 +108,7 @@ class Recipe
     /**
      * Author.
      *
-     * @var User|null
+     * @var User|null Author
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -119,7 +119,7 @@ class Recipe
     /**
      * Comments.
      *
-     * @var Collection<int, Comment>
+     * @var Collection<int, Comment> Comments
      */
     #[Assert\Valid]
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Comment::class, cascade: ['persist', 'remove'], orphanRemoval: true)] #[ORM\JoinTable(name: 'recipes_comments')]
@@ -128,7 +128,7 @@ class Recipe
     /**
      * Ratings.
      *
-     * @var Collection<int, Rating>
+     * @var Collection<int, Rating> Ratings
      */
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Rating::class, cascade: ['remove'])]
     private Collection $ratings;
@@ -136,7 +136,7 @@ class Recipe
     /**
      * AverageRating.
      *
-     * @var float|null
+     * @var float|null Average Rating
      */
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $averageRating = null;
@@ -174,9 +174,9 @@ class Recipe
     /**
      * Setter for title.
      *
-     * @param string $title
+     * @param string $title Title
      *
-     * @return $this
+     * @return $this Title
      */
     public function setTitle(string $title): static
     {
@@ -188,9 +188,9 @@ class Recipe
     /**
      * Setter for id.
      *
-     * @param int $id
+     * @param int $id id
      *
-     * @return $this
+     * @return $this id
      */
     public function setId(int $id): static
     {
@@ -202,7 +202,7 @@ class Recipe
     /**
      * Getter for createdAt.
      *
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable|null createdAt
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -212,9 +212,9 @@ class Recipe
     /**
      * Setter for createdAt.
      *
-     * @param \DateTimeImmutable $createdAt
+     * @param \DateTimeImmutable $createdAt createdAt
      *
-     * @return $this
+     * @return $this createdAt
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
@@ -226,7 +226,7 @@ class Recipe
     /**
      * Getter for updatedAt.
      *
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable|null updatedAt
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -236,9 +236,9 @@ class Recipe
     /**
      * Setter for updatedAt.
      *
-     * @param \DateTimeImmutable $updatedAt
+     * @param \DateTimeImmutable $updatedAt updatedAt
      *
-     * @return $this
+     * @return $this updatedAt
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
@@ -250,7 +250,7 @@ class Recipe
     /**
      * Getter for content.
      *
-     * @return string|null
+     * @return string|null content
      */
     public function getContent(): ?string
     {
@@ -260,9 +260,9 @@ class Recipe
     /**
      * Setter for content.
      *
-     * @param string $content
+     * @param string $content content
      *
-     * @return $this
+     * @return $this content
      */
     public function setContent(string $content): static
     {
@@ -274,7 +274,7 @@ class Recipe
     /**
      * Getter for category.
      *
-     * @return Category|null
+     * @return Category|null category
      */
     public function getCategory(): ?Category
     {
@@ -284,9 +284,9 @@ class Recipe
     /**
      * Setter for category.
      *
-     * @param Category|null $category
+     * @param Category|null $category category
      *
-     * @return $this
+     * @return $this category
      */
     public function setCategory(?Category $category): static
     {
@@ -298,7 +298,7 @@ class Recipe
     /**
      * Getter for slug.
      *
-     * @return string|null
+     * @return string|null slug
      */
     public function getSlug(): ?string
     {
@@ -308,9 +308,9 @@ class Recipe
     /**
      * Setter for slug.
      *
-     * @param string $slug
+     * @param string $slug slug
      *
-     * @return $this
+     * @return $this slug
      */
     public function setSlug(string $slug): static
     {
@@ -322,7 +322,7 @@ class Recipe
     /**
      * Getter for tags.
      *
-     * @return Collection<int, Tag>
+     * @return Collection<int, Tag> tags
      */
     public function getTags(): Collection
     {
@@ -332,9 +332,9 @@ class Recipe
     /**
      * Add for tags.
      *
-     * @param Tag $tag
+     * @param Tag $tag tags
      *
-     * @return $this
+     * @return $this tags
      */
     public function addTag(Tag $tag): static
     {
@@ -348,9 +348,9 @@ class Recipe
     /**
      * Remove for tag.
      *
-     * @param Tag $tag
+     * @param Tag $tag Remove tag
      *
-     * @return $this
+     * @return $this Remove tag
      */
     public function removeTag(Tag $tag): static
     {
@@ -362,7 +362,7 @@ class Recipe
     /**
      * Getter for author.
      *
-     * @return User|null
+     * @return User|null Author
      */
     public function getAuthor(): ?User
     {
@@ -372,9 +372,9 @@ class Recipe
     /**
      * Setter for author.
      *
-     * @param User|null $author
+     * @param User|null $author author
      *
-     * @return $this
+     * @return $this author
      */
     public function setAuthor(?User $author): static
     {
@@ -386,7 +386,7 @@ class Recipe
     /**
      * Getter for comments.
      *
-     * @return Collection
+     * @return Collection comments
      */
     public function getComments(): Collection
     {
@@ -399,9 +399,9 @@ class Recipe
     /**
      * Add for comments.
      *
-     * @param Comment $comment
+     * @param Comment $comment add comment
      *
-     * @return $this
+     * @return $this add comment
      */
     public function addComment(Comment $comment): static
     {
@@ -415,9 +415,9 @@ class Recipe
     /**
      * Remove for comments.
      *
-     * @param Comment $comment
+     * @param Comment $comment remove comment
      *
-     * @return $this
+     * @return $this remove comment
      */
     public function removeComment(Comment $comment): static
     {
@@ -429,7 +429,7 @@ class Recipe
     /**
      * Getter for averageRating.
      *
-     * @return float|null
+     * @return float|null average Rating
      */
     public function getAverageRating(): ?float
     {
@@ -439,9 +439,9 @@ class Recipe
     /**
      * Setter for averageRating.
      *
-     * @param float $averageRating
+     * @param float $averageRating average Rating
      *
-     * @return $this
+     * @return $this average Rating
      */
     public function setAverageRating(float $averageRating): self
     {
@@ -453,7 +453,7 @@ class Recipe
     /**
      * Getter for ratings.
      *
-     * @return Collection
+     * @return Collection ratings
      */
     public function getRatings(): Collection
     {
@@ -463,9 +463,9 @@ class Recipe
     /**
      * Add for ratings.
      *
-     * @param Rating $rating
+     * @param Rating $rating ratings
      *
-     * @return $this
+     * @return $this ratings
      */
     public function addRating(Rating $rating): self
     {
@@ -480,9 +480,9 @@ class Recipe
     /**
      * Remove for ratings.
      *
-     * @param Rating $rating
+     * @param Rating $rating ratings
      *
-     * @return $this
+     * @return $this ratings
      */
     public function removeRating(Rating $rating): self
     {
@@ -498,7 +498,7 @@ class Recipe
     /**
      * Operation for averageRating.
      *
-     * @return void
+     * @return void averageRating
      */
     public function calculateAverageRating(): void
     {

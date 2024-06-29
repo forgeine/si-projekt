@@ -17,7 +17,7 @@ class CommentRepository extends ServiceEntityRepository
     /**
      * Construct.
      *
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry Manager Registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -27,9 +27,9 @@ class CommentRepository extends ServiceEntityRepository
     /**
      * Save entity.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity Comment
      *
-     * @return void
+     * @return void Void
      */
     public function save(Comment $comment): void
     {
@@ -40,9 +40,9 @@ class CommentRepository extends ServiceEntityRepository
     /**
      * Delete entity.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity Comment
      *
-     * @return void
+     * @return void Void
      */
     public function delete(Comment $comment): void
     {

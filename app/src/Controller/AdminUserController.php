@@ -24,8 +24,8 @@ class AdminUserController extends AbstractController
     /**
      * Constructor
      *
-     * @param TranslatorInterface       $translator
-     * @param AdminUserServiceInterface $adminUserService
+     * @param TranslatorInterface       $translator translations
+     * @param AdminUserServiceInterface $adminUserService interface
      */
     public function __construct(private TranslatorInterface $translator, private AdminUserServiceInterface $adminUserService)
     {
@@ -34,7 +34,7 @@ class AdminUserController extends AbstractController
     /**
      * Index for admin tools.
      *
-     * @return Response
+     * @return Response edit user
      */
     #[Route(name: 'edit_users')]
     public function index(): Response
@@ -49,10 +49,10 @@ class AdminUserController extends AbstractController
     /**
      * Admin tool for changing email of users.
      *
-     * @param User    $user
-     * @param Request $request
+     * @param User    $user entity
+     * @param Request $request request
      *
-     * @return Response
+     * @return Response edit user of id
      */
     #[Route('/edit/{id}', name: 'edit_user')]
     public function edit(User $user, Request $request): Response
@@ -76,10 +76,10 @@ class AdminUserController extends AbstractController
     /**
      * Admin tool for changing passwords.
      *
-     * @param User    $user
-     * @param Request $request
+     * @param User    $user entity
+     * @param Request $request request
      *
-     * @return Response
+     * @return Response change password of id
      */
     #[Route('/change-password/{id}', name: 'admin_change_password')]
     public function changePassword(User $user, Request $request): Response
@@ -103,9 +103,9 @@ class AdminUserController extends AbstractController
     /**
      * Admin tool for deleting users and their content.
      *
-     * @param User $user
+     * @param User $user entity
      *
-     * @return Response
+     * @return Response delete user of id
      */
     #[Route('/delete/{id}', name: 'delete_user', methods: ['POST'])]
     public function delete(User $user): Response

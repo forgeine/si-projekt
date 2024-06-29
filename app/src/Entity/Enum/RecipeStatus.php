@@ -18,7 +18,7 @@ enum RecipeStatus: int
     /**
      * Get the description of the status.
      *
-     * @return string
+     * @return string status
      */
     public function getDescription(): string
     {
@@ -33,7 +33,7 @@ enum RecipeStatus: int
     /**
      * Get all possible statuses as an array.
      *
-     * @return RecipeStatus[]
+     * @return RecipeStatus[] status
      */
     public static function getAllStatuses(): array
     {

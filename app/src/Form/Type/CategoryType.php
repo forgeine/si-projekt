@@ -50,7 +50,7 @@ class CategoryType extends AbstractType
     /**
      * GetBlockPrefix.
      *
-     * @return string
+     * @return string category
      */
     public function getBlockPrefix(): string
     {

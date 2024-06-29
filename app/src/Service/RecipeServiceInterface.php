@@ -20,11 +20,11 @@ interface RecipeServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int                       $page
-     * @param User                      $author
-     * @param RecipeListInputFiltersDto $filters
+     * @param int                       $page Page
+     * @param User                      $author Author
+     * @param RecipeListInputFiltersDto $filters Filters
      *
-     * @return PaginationInterface
+     * @return PaginationInterface Pagination
      */
     public function getPaginatedList(int $page, User $author, RecipeListInputFiltersDto $filters): PaginationInterface;
 
@@ -45,27 +45,27 @@ interface RecipeServiceInterface
     /**
      * Find one by title.
      *
-     * @param string $title
+     * @param string $title title
      *
-     * @return Tag|null
+     * @return Tag|null Tag
      */
     public function findOneByTitle(string $title): ?Tag;
 
     /**
      * Save comment.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity comment
      *
-     * @return void
+     * @return void Void
      */
     public function saveComment(Comment $comment): void;
 
     /**
      * Delete comment.
      *
-     * @param Comment $comment
+     * @param Comment $comment Entity comment
      *
-     * @return void
+     * @return void Void
      */
     public function deleteComment(Comment $comment): void;
 }

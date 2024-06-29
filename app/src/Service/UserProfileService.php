@@ -17,8 +17,8 @@ class UserProfileService implements UserProfileServiceInterface
     /**
      * Construct
      *
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param EntityManagerInterface      $em
+     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
+     * @param EntityManagerInterface      $em Entity Manager
      */
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em)
     {
@@ -27,9 +27,9 @@ class UserProfileService implements UserProfileServiceInterface
     /**
      * updateUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function updateUser(User $user): void
     {
@@ -39,12 +39,12 @@ class UserProfileService implements UserProfileServiceInterface
     /**
      * Change password.
      *
-     * @param User   $user
-     * @param string $currentPassword
-     * @param string $newPassword
-     * @param string $confirmNewPassword
+     * @param User   $user Entity User
+     * @param string $currentPassword Current Password
+     * @param string $newPassword New Password
+     * @param string $confirmNewPassword Confirm New
      *
-     * @return bool
+     * @return bool Result
      */
     public function validateAndChangePassword(User $user, string $currentPassword, string $newPassword, string $confirmNewPassword): bool
     {

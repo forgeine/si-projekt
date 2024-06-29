@@ -15,16 +15,16 @@ interface RegistrationServiceInterface
     /**
      * Register User.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function registerUser(User $user): void;
 
     /**
      * Get success message.
      *
-     * @return string
+     * @return string Success
      */
     public function getSuccessMessage(): string;
 }

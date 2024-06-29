@@ -20,10 +20,10 @@ class RatingType extends AbstractType
     /**
      * Builds form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder Form Builder Interface
+     * @param array                $options Options
      *
-     * @return void
+     * @return void Void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -45,9 +45,9 @@ class RatingType extends AbstractType
     /**
      * Configures options.
      *
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver Options Resolver
      *
-     * @return void
+     * @return void Void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

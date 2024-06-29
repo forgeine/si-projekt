@@ -39,11 +39,11 @@ class RecipeController extends AbstractController
     /**
      * Constructor
      *
-     * @param RecipeServiceInterface $recipeService
-     * @param TagServiceInterface    $tagService
-     * @param TranslatorInterface    $translator
-     * @param Security               $security
-     * @param ManagerRegistry        $doctrine
+     * @param RecipeServiceInterface $recipeService Recipe Service Interface
+     * @param TagServiceInterface    $tagService Tag Service Interface
+     * @param TranslatorInterface    $translator Translator
+     * @param Security               $security Security
+     * @param ManagerRegistry        $doctrine Manager Registry Doctrine
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator, private readonly Security $security, private readonly ManagerRegistry $doctrine)
     {
@@ -52,10 +52,10 @@ class RecipeController extends AbstractController
     /**
      * Recipe index.
      *
-     * @param RecipeListInputFiltersDto $filters
-     * @param int                       $page
+     * @param RecipeListInputFiltersDto $filters Filters
+     * @param int                       $page Page
      *
-     * @return Response
+     * @return Response Index
      */
     #[Route(name: 'recipe_index', methods: 'GET')]
     public function index(#[MapQueryString(resolver: RecipeListInputFiltersDtoResolver::class)] RecipeListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
@@ -73,10 +73,10 @@ class RecipeController extends AbstractController
     /**
      * Own recipes.
      *
-     * @param RecipeListInputFiltersDto $filters
-     * @param int                       $page
+     * @param RecipeListInputFiltersDto $filters Filters
+     * @param int                       $page Page
      *
-     * @return Response
+     * @return Response Own
      */
     #[Route(
         '/own',
@@ -98,11 +98,11 @@ class RecipeController extends AbstractController
     /**
      * Recipe details, actions show.
      *
-     * @param Recipe                 $recipe
-     * @param Request                $request
-     * @param EntityManagerInterface $em
+     * @param Recipe                 $recipe Entity Recipe
+     * @param Request                $request Request
+     * @param EntityManagerInterface $em Entity Manager Interface
      *
-     * @return Response
+     * @return Response Show, details
      */
     #[Route(
         '/{id}',
@@ -141,12 +141,12 @@ class RecipeController extends AbstractController
     /**
      * Deleting a comment, action deleteComment.
      *
-     * @param Request                $request
-     * @param Recipe                 $recipe
-     * @param Comment                $comment
-     * @param EntityManagerInterface $em
+     * @param Request                $request Request
+     * @param Recipe                 $recipe Entity Recipe
+     * @param Comment                $comment Entity Comment
+     * @param EntityManagerInterface $em Entity Manager Interface
      *
-     * @return Response
+     * @return Response Delete comment
      */
     #[Route(
         '/{recipe_id}/comment/{id}/delete',
@@ -183,9 +183,9 @@ class RecipeController extends AbstractController
     /**
      * Create a recipe, action create.
      *
-     * @param Request $request
+     * @param Request $request Request
      *
-     * @return Response
+     * @return Response Create
      */
     #[Route('/create', name: 'recipe_create', methods: 'GET|POST')]
     public function create(Request $request): Response
@@ -218,10 +218,10 @@ class RecipeController extends AbstractController
     /**
      * Editing a recipe, action edit.
      *
-     * @param Request $request
-     * @param Recipe  $recipe
+     * @param Request $request Request
+     * @param Recipe  $recipe Entity Recipe
      *
-     * @return Response
+     * @return Response Edit
      */
     #[Route('/{id}/edit', name: 'recipe_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function edit(Request $request, Recipe $recipe): Response
@@ -266,10 +266,10 @@ class RecipeController extends AbstractController
     /**
      * Deleting a recipe, action delete.
      *
-     * @param Request $request
-     * @param Recipe  $recipe
+     * @param Request $request Request
+     * @param Recipe  $recipe Entity Recipe
      *
-     * @return Response
+     * @return Response Delete
      */
     #[Route('/{id}/delete', name: 'recipe_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|POST')]
     public function delete(Request $request, Recipe $recipe): Response
@@ -314,11 +314,11 @@ class RecipeController extends AbstractController
     /**
      * Rating a recipe, action rateRecipe.
      *
-     * @param Request          $request
-     * @param Recipe           $recipe
-     * @param RatingRepository $ratingRepository
+     * @param Request          $request Request
+     * @param Recipe           $recipe Entity Recipe
+     * @param RatingRepository $ratingRepository Rating Repository
      *
-     * @return Response
+     * @return Response Rating
      */
     #[Route(
         '/{id}/rate',

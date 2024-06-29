@@ -102,7 +102,7 @@ class CategoryService implements CategoryServiceInterface
      *
      * @param int $id Category id
      *
-     * @return Category|null Category entity
+     * @return Category|null Category
      *
      * @throws NonUniqueResultException
      */

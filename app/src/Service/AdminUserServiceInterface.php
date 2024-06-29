@@ -15,35 +15,35 @@ interface AdminUserServiceInterface
     /**
      * getAllUsers.
      *
-     * @return array
+     * @return array All users
      */
     public function getAllUsers(): array;
 
     /**
      * updateUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function updateUser(User $user): void;
 
     /**
      * changePassword.
      *
-     * @param User   $user
-     * @param string $newPassword
+     * @param User   $user Entity User
+     * @param string $newPassword New Password
      *
-     * @return void
+     * @return void Void
      */
     public function changePassword(User $user, string $newPassword): void;
 
     /**
      * deleteUser.
      *
-     * @param User $user
+     * @param User $user Entity User
      *
-     * @return void
+     * @return void Void
      */
     public function deleteUser(User $user): void;
 }
