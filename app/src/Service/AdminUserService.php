@@ -1,6 +1,6 @@
 <?php
 /**
- * AdminUserService
+ * AdminUserService.
  */
 
 namespace App\Service;
@@ -17,12 +17,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AdminUserService implements AdminUserServiceInterface
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param UserRepository              $userRepository User Repository
+     * @param UserRepository              $userRepository   User Repository
      * @param RecipeRepository            $recipeRepository Recipe Repository
-     * @param UserPasswordHasherInterface $passwordHasher Password Hasher
-     * @param EntityManagerInterface      $em Entity Manager
+     * @param UserPasswordHasherInterface $passwordHasher   Password Hasher
+     * @param EntityManagerInterface      $em               Entity Manager
      */
     public function __construct(private readonly UserRepository $userRepository, private readonly RecipeRepository $recipeRepository, private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em)
     {
@@ -53,7 +53,7 @@ class AdminUserService implements AdminUserServiceInterface
     /**
      * changePassword.
      *
-     * @param User   $user Entity User
+     * @param User   $user        Entity User
      * @param string $newPassword New password
      *
      * @return void Void

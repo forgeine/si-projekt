@@ -37,13 +37,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RecipeController extends AbstractController
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param RecipeServiceInterface $recipeService Recipe Service Interface
-     * @param TagServiceInterface    $tagService Tag Service Interface
-     * @param TranslatorInterface    $translator Translator
-     * @param Security               $security Security
-     * @param ManagerRegistry        $doctrine Manager Registry Doctrine
+     * @param TagServiceInterface    $tagService    Tag Service Interface
+     * @param TranslatorInterface    $translator    Translator
+     * @param Security               $security      Security
+     * @param ManagerRegistry        $doctrine      Manager Registry Doctrine
      */
     public function __construct(private readonly RecipeServiceInterface $recipeService, private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator, private readonly Security $security, private readonly ManagerRegistry $doctrine)
     {
@@ -53,7 +53,7 @@ class RecipeController extends AbstractController
      * Recipe index.
      *
      * @param RecipeListInputFiltersDto $filters Filters
-     * @param int                       $page Page
+     * @param int                       $page    Page
      *
      * @return Response Index
      */
@@ -74,7 +74,7 @@ class RecipeController extends AbstractController
      * Own recipes.
      *
      * @param RecipeListInputFiltersDto $filters Filters
-     * @param int                       $page Page
+     * @param int                       $page    Page
      *
      * @return Response Own
      */
@@ -98,9 +98,9 @@ class RecipeController extends AbstractController
     /**
      * Recipe details, actions show.
      *
-     * @param Recipe                 $recipe Entity Recipe
+     * @param Recipe                 $recipe  Entity Recipe
      * @param Request                $request Request
-     * @param EntityManagerInterface $em Entity Manager Interface
+     * @param EntityManagerInterface $em      Entity Manager Interface
      *
      * @return Response Show, details
      */
@@ -142,9 +142,9 @@ class RecipeController extends AbstractController
      * Deleting a comment, action deleteComment.
      *
      * @param Request                $request Request
-     * @param Recipe                 $recipe Entity Recipe
+     * @param Recipe                 $recipe  Entity Recipe
      * @param Comment                $comment Entity Comment
-     * @param EntityManagerInterface $em Entity Manager Interface
+     * @param EntityManagerInterface $em      Entity Manager Interface
      *
      * @return Response Delete comment
      */
@@ -219,7 +219,7 @@ class RecipeController extends AbstractController
      * Editing a recipe, action edit.
      *
      * @param Request $request Request
-     * @param Recipe  $recipe Entity Recipe
+     * @param Recipe  $recipe  Entity Recipe
      *
      * @return Response Edit
      */
@@ -262,12 +262,11 @@ class RecipeController extends AbstractController
         );
     }
 
-
     /**
      * Deleting a recipe, action delete.
      *
      * @param Request $request Request
-     * @param Recipe  $recipe Entity Recipe
+     * @param Recipe  $recipe  Entity Recipe
      *
      * @return Response Delete
      */
@@ -314,8 +313,8 @@ class RecipeController extends AbstractController
     /**
      * Rating a recipe, action rateRecipe.
      *
-     * @param Request          $request Request
-     * @param Recipe           $recipe Entity Recipe
+     * @param Request          $request          Request
+     * @param Recipe           $recipe           Entity Recipe
      * @param RatingRepository $ratingRepository Rating Repository
      *
      * @return Response Rating

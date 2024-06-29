@@ -23,7 +23,7 @@ interface CategoryServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     /**
-     * Save entity
+     * Save entity.
      *
      * @param Category $category Entity Category
      *
@@ -32,7 +32,7 @@ interface CategoryServiceInterface
     public function save(Category $category): void;
 
     /**
-     * Delete entity
+     * Delete entity.
      *
      * @param Category $category Entity Category
      *

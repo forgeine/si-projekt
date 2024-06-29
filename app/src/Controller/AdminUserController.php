@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AdminUserController extends AbstractController
 {
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param TranslatorInterface       $translator translations
+     * @param TranslatorInterface       $translator       translations
      * @param AdminUserServiceInterface $adminUserService interface
      */
     public function __construct(private TranslatorInterface $translator, private AdminUserServiceInterface $adminUserService)
@@ -49,7 +49,7 @@ class AdminUserController extends AbstractController
     /**
      * Admin tool for changing email of users.
      *
-     * @param User    $user entity
+     * @param User    $user    entity
      * @param Request $request request
      *
      * @return Response edit user of id
@@ -76,7 +76,7 @@ class AdminUserController extends AbstractController
     /**
      * Admin tool for changing passwords.
      *
-     * @param User    $user entity
+     * @param User    $user    entity
      * @param Request $request request
      *
      * @return Response change password of id

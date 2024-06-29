@@ -1,6 +1,6 @@
 <?php
 /**
- * App Fixtures
+ * App Fixtures.
  */
 
 namespace App\DataFixtures;

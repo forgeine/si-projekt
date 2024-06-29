@@ -15,10 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserProfileService implements UserProfileServiceInterface
 {
     /**
-     * Construct
+     * Construct.
      *
      * @param UserPasswordHasherInterface $passwordHasher Password Hasher
-     * @param EntityManagerInterface      $em Entity Manager
+     * @param EntityManagerInterface      $em             Entity Manager
      */
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em)
     {
@@ -39,9 +39,9 @@ class UserProfileService implements UserProfileServiceInterface
     /**
      * Change password.
      *
-     * @param User   $user Entity User
-     * @param string $currentPassword Current Password
-     * @param string $newPassword New Password
+     * @param User   $user               Entity User
+     * @param string $currentPassword    Current Password
+     * @param string $newPassword        New Password
      * @param string $confirmNewPassword Confirm New
      *
      * @return bool Result

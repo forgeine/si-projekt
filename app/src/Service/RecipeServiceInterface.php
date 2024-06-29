@@ -20,8 +20,8 @@ interface RecipeServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int                       $page Page
-     * @param User                      $author Author
+     * @param int                       $page    Page
+     * @param User                      $author  Author
      * @param RecipeListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface Pagination

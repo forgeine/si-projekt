@@ -37,7 +37,6 @@ class Comment
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
-
     /**
      * content.
      *

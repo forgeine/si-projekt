@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class TagController extends AbstractController
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TagServiceInterface $tagService Tag Service Interface
      * @param TranslatorInterface $translator Translator
@@ -36,7 +36,7 @@ class TagController extends AbstractController
      * Editing a tag, action edit.
      *
      * @param Request $request Request
-     * @param Tag     $tag Entity Tag
+     * @param Tag     $tag     Entity Tag
      *
      * @return Response Edit
      */
@@ -150,7 +150,7 @@ class TagController extends AbstractController
      * Deleting a tag, action delete.
      *
      * @param Request $request Request
-     * @param Tag     $tag Entity tag
+     * @param Tag     $tag     Entity tag
      *
      * @return Response Delete
      */

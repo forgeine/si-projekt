@@ -35,14 +35,14 @@ class RecipeService implements RecipeServiceInterface
     private const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param CategoryServiceInterface $categoryService Category Service
-     * @param PaginatorInterface       $paginator Paginator
-     * @param TagServiceInterface      $tagService Tag Service
+     * @param CategoryServiceInterface $categoryService   Category Service
+     * @param PaginatorInterface       $paginator         Paginator
+     * @param TagServiceInterface      $tagService        Tag Service
      * @param CommentRepository        $commentRepository Comment Repository
-     * @param RecipeRepository         $recipeRepository Recipe Repository
-     * @param RatingRepository         $ratingRepository Rating Repository
+     * @param RecipeRepository         $recipeRepository  Recipe Repository
+     * @param RatingRepository         $ratingRepository  Rating Repository
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly CommentRepository $commentRepository, private readonly RecipeRepository $recipeRepository, private readonly RatingRepository $ratingRepository)
     {
@@ -51,8 +51,8 @@ class RecipeService implements RecipeServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int                       $page Page
-     * @param User|null                 $author Author
+     * @param int                       $page    Page
+     * @param User|null                 $author  Author
      * @param RecipeListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface Pagination

@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RecipeType extends AbstractType
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags Data Transformer
      */

@@ -24,9 +24,9 @@ interface UserProfileServiceInterface
     /**
      * validateAndChangePassword.
      *
-     * @param User   $user Entity User
-     * @param string $currentPassword Current Password
-     * @param string $newPassword New Password
+     * @param User   $user               Entity User
+     * @param string $currentPassword    Current Password
+     * @param string $newPassword        New Password
      * @param string $confirmNewPassword Confirm New
      *
      * @return bool Result

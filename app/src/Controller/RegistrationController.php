@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     /**
-     * Construct
+     * Construct.
      *
      * @param RegistrationServiceInterface $registrationService Registration Service Interface
      */

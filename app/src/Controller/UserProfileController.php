@@ -21,10 +21,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserProfileController extends AbstractController
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param UserProfileServiceInterface $userProfileService User Profile Service Interface
-     * @param TranslatorInterface         $translator Translator
+     * @param TranslatorInterface         $translator         Translator
      */
     public function __construct(private UserProfileServiceInterface $userProfileService, private TranslatorInterface $translator)
     {

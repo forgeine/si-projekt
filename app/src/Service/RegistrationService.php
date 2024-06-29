@@ -17,11 +17,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationService implements RegistrationServiceInterface
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param UserPasswordHasherInterface $passwordHasher Password Hasher
-     * @param TranslatorInterface         $translator Translator
-     * @param EntityManagerInterface      $entityManager Entity Manager
+     * @param TranslatorInterface         $translator     Translator
+     * @param EntityManagerInterface      $entityManager  Entity Manager
      */
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly TranslatorInterface $translator, private readonly EntityManagerInterface $entityManager)
     {
@@ -49,7 +49,7 @@ class RegistrationService implements RegistrationServiceInterface
     }
 
     /**
-     * Get success message
+     * Get success message.
      *
      * @return string Success
      */

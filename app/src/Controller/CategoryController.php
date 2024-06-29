@@ -36,7 +36,7 @@ class CategoryController extends AbstractController
     /**
      * Editing categories, action edit.
      *
-     * @param Request  $request Request
+     * @param Request  $request  Request
      * @param Category $category Entity category
      *
      * @return Response Edit category
@@ -151,7 +151,7 @@ class CategoryController extends AbstractController
     /**
      * Deleting category, action delete.
      *
-     * @param Request  $request Request
+     * @param Request  $request  Request
      * @param Category $category Entity category
      *
      * @return Response Delete

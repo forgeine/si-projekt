@@ -31,7 +31,7 @@ interface AdminUserServiceInterface
     /**
      * changePassword.
      *
-     * @param User   $user Entity User
+     * @param User   $user        Entity User
      * @param string $newPassword New Password
      *
      * @return void Void
